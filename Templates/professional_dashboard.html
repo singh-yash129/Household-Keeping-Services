@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/header.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    <link rel="stylesheet" href="https:/fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="{{url_for('static',filename='css/dash.css')}}">
+</head>
+
+<body>
+    <script>
+        function myVerify() {
+            var x = document.getElementById("two_step_verification");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            var closeIcon = document.querySelector(".cls6");
+            closeIcon.addEventListener("click", function() {
+                document.getElementById("two_step_verification").style.display = "none";
+            });
+        });
+        
+        document.addEventListener("DOMContentLoaded", function() {
+                    function setupInputFocus(containerSelector) {
+                        const inputs = document.querySelectorAll(`${containerSelector} input`);
+                        inputs.forEach((input, index) => {
+                            input.addEventListener('input', function() {
+                                if (this.value.length === this.maxLength) {
+                                    const nextInput = inputs[index + 1];
+                                    if (nextInput) {
+                                        nextInput.focus();
+                                    }
+                                }
+                            });
+                        });
+                    }
+        
+                    setupInputFocus('#inp');
+                    setupInputFocus('#inp2');
+                    setupInputFocus('#inp_disable');
+        
+                    const checkbox = document.querySelector('#verify-checkbox');
+                    const verifyInput = document.querySelector('#verify-input');
+                    const enableDiv = document.querySelector('#enable');
+                    const disableDiv = document.querySelector('#disable');
+        
+                    function toggleInputSections() {
+                        if (checkbox.checked) {
+                            enableDiv.style.display = '{{ pro.passcode == 0 }}' === 'True' ? 'block' : 'none';
+                            disableDiv.style.display = 'none';
+                        } else {
+                            enableDiv.style.display = 'none';
+                            disableDiv.style.display = '{{ pro.passcode != 0 }}' === 'True' ? 'block' : 'none';
+                        }
+                    }
+        
+                    toggleInputSections();
+        
+                    checkbox.addEventListener('change', function() {
+                        verifyInput.value = checkbox.checked ? 'True' : 'False';
+                        toggleInputSections();
+                    });
+        
+        
+        
+                });
+            </script>
+    <div class="form-popup_2" id="verifyForm">
+        <form action="{{url_for('verify_account',user=pro.username)}}" class="form-container_2" method="post" enctype="multipart/form-data">
+            <h2>Upload Documents for Verification of Business!</h2>
+            <div class="grp">
+                <label for="gst_file">GST CERTIFICATE</label>
+                <div class="custom-file-upload">
+                    <span class="material-symbols-outlined">cloud_upload</span>
+                    <span>Select GST Certificate</span>
+                    <input type="file" name="gst_file" id="gst_file">
+                </div>
+            </div>
+            <div class="grp">
+                <label for="UAN_file">UAN CERTIFICATE</label>
+                <div class="custom-file-upload">
+                    <span class="material-symbols-outlined">cloud_upload</span>
+                    <span>Select UAN Certificate</span>
+                    <input type="file" name="uan_file" id="UAN_file">
+                </div>
+            </div>
+            <div class="grp">
+                <label for="bussiness_file">BUSINESS REGISTRATION CERTIFICATE</label>
+                <div class="custom-file-upload">
+                    <span class="material-symbols-outlined">cloud_upload</span>
+                    <span>Select Business Registration Certificate</span>
+                    <input type="file" name="bussiness_file" id="bussiness_file">
+                </div>
+            </div>
+            <div class="grp">
+                <label for="INCOME_file">INCOME TAX CERTIFICATE</label>
+                <div class="custom-file-upload">
+                    <span class="material-symbols-outlined">cloud_upload</span>
+                    <span>Select Income Tax Certificate</span>
+                    <input type="file" name="income_file" id="INCOME_file">
+                </div>
+            </div>
+            <div class="button-container_2" style="display: flex;">
+                <button type="submit" class="btn">Upload</button>
+                <button type="button" class="btn cancel" onclick="closeVerifyForm()">Cancel</button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="form-popup_1" id="deactivateForm">
+        <form action="{{ url_for('professional_dashboard', user=pro.username)  }}" class="form-container_1">
+            <h2>Are you sure you want to deactivate your account?</h2>
+            <div class="button-container_1"> <button type="submit" class="btn" name="deactivate" value="deactivate">Yes</button> 
+                <button type="button" class="btn cancel" onclick="closeDeactivateForm()">No</button> </div>
+        </form>
+    </div>
+    <div class="form-popup" id="updateProfileForm">
+        <form action="{{url_for('submit_profile_update',user=pro.username)}}" class="form-container" method="post">
+            <h2 class="form-title">Update Profile</h2>
+
+           
+            <div id="noc">
+                <div class="form-group">
+                    <label for="firstName"><b>First Name <span class="required">*</span></b></label>
+                    <input type="text" id="firstName" placeholder="Enter your first name" name="firstName" value="{{ data.first_name if data.first_name else '' }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName"><b>Last Name <span class="required">*</span></b></label>
+                    <input type="text" id="lastName" placeholder="Enter your last name" name="lastName" value="{{ data.last_name if data.last_name else '' }}" required>
+                </div>
+            </div>
+            <div id="noc">
+                <div class="form-group">
+                    <label for="mobileNumber"><b>Mobile Number <span class="required">*</span></b></label>
+                    <input type="tel" id="mobileNumber" placeholder="Enter your mobile number" name="mobileNumber" value="{{ data.mobile_number if data.mobile_number else '' }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="alternateNumber"><b>Alternate Number</b></label>
+                    <input type="tel" id="alternateNumber" placeholder="Enter alternate number" name="alternateNumber" value="{{ data.alternate_number if data.alternate_number else '' }}">
+                </div>
+            </div>
+            <!-- Address Information -->
+            <h3 class="section-title">Address Details</h3>
+            <div class="form-group">
+                <label for="streetAddress"><b>Street Address <span class="required">*</span></b></label>
+                <textarea id="streetAddress" placeholder="Enter your street address" name="streetAddress" required rows="10" cols="60">{{ data.street_address if data.street_address else '' }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="city"><b>City <span class="required">*</span></b></label>
+                <input type="text" id="city" placeholder="Enter your city" name="city" value="{{ data.city if data.city else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="state"><b>State <span class="required">*</span></b></label>
+                <input type="text" id="state" placeholder="Enter your state" name="state" value="{{ data.state if data.state else '' }}" required>
+            </div>
+            <div id="noc">
+                <div class="form-group">
+                    <label for="country"><b>Country <span class="required">*</span></b></label>
+                    <input type="text" id="country" placeholder="Enter your country" name="country" value="{{ data.country if data.country else '' }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="pincode"><b>Pincode <span class="required">*</span></b></label>
+                    <input type="text" id="pincode" placeholder="Enter your pincode" name="pincode" value="{{ data.pincode if data.pincode else '' }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="landmarks"><b>Landmarks</b></label>
+                    <input type="text" id="landmarks" placeholder="Enter nearby landmarks" name="landmarks" value="{{ data.landmarks if data.landmarks else '' }}">
+                </div>
+            </div>
+    
+            <!-- Action Buttons -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-submit">Submit</button>
+                <button type="button" class="btn btn-cancel" onclick="closeForm()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="set" style="display: none;">
+        <span class="cls2" style="float: right;">&times;</span>
+        <br><br>
+        <div id="alg" onclick="myVerify()">
+            <span class="material-symbols-outlined">key</span>
+            <h4>Two-Factor-Authentication</h4>
+        </div>
+        <div id="alg" onclick="myChange()">
+            <span class="material-symbols-outlined">
+                password
+            </span>
+            <h4>Change Password</h4>
+        </div>
+        <div id="alg" onclick="openForm()">
+            <span class="material-symbols-outlined">
+                account_circle
+            </span>
+            <h4>Account</h4>
+        </div>
+        <div id="alg" onclick="myMode()">
+            <span class="material-symbols-outlined" id="mode">
+                dark_mode
+            </span>
+            <h4 id="dot">Dark Mode</h4>
+        </div>
+        <div id="alg" onclick="myDelete()">
+            <span class="material-symbols-outlined">delete</span>
+            <h4>Delete Account</h4>
+        </div>
+        <div id="alg" onclick="openDeactivateForm()">
+            <span class="material-symbols-outlined">switches</span>
+            <h4>Deactivate Account</h4>
+        </div>
+        <div id="alg" onclick="openVerifyForm()">
+            <span class="material-symbols-outlined">verified</span>
+            <h4>Verification Account</h4>
+        </div>
+
+        <div id="alg" onclick="window.location.href='/paymented'">
+            <span class="material-symbols-outlined" >payments</span>
+            <h4>Payments Details</h4>
+        </div>
+        <div>
+            <div id="alg1">
+                <div id="hs2">
+                    <span class="material-symbols-outlined">visibility</span>
+                    <h4>Visibility</h4>
+                </div>
+                <form id="visibility-form"
+                    action="{{ url_for('professional_dashboard', user=pro.username)  }}"
+                    method="post" style="all: unset;">
+                    <input type="hidden" name="visibility" id="visibility-input"
+                        value="{{ 'on' if pro.visibility else 'off' }}">
+                    <label class="switch">
+                        <input type="checkbox" id="visibility-checkbox" {% if pro.visibility=='on' %}checked{%
+                            endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </form>
+            </div>
+
+        </div>
+        <div id="alg" onclick="window.location.href='{{ url_for('logout') }}'">
+            <span class="material-symbols-outlined">logout</span>
+            <h4>Logout</h4>
+        </div>
+
+    </div>
+    <div id="two_step_verification" style="display: none;">
+        <span class="cls6" style="float: right;" id="closeModalButton">&times;</span><br>
+        <div id="fields">
+            <form id="verify-form"  action="{{ url_for('professional_dashboard', user=pro.username)  }}"  method="post">
+
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;gap: 20px;">
+                        <span class="material-symbols-outlined">key</span>
+                        <h4>Two-Factor Authentication</h4>
+                    </div>
+                    <input type="hidden" name="verify" id="verify-input"
+                        value="{{ 'True' if pro.two_factor_authentication else 'False' }}">
+                    <label class="switch">
+                        <input type="checkbox" id="verify-checkbox" {% if pro.two_factor_authentication=='True'
+                            %}checked{% endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div id="enable" style="display: none;">
+                    <div id="ena">
+                        <p><strong>Enter 6-digit passcode to set up:</strong></p>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="Set">Setup passcode</label>
+                            <div id="inp">
+                                {% for i in range(1, 7) %}
+                                <input type="text" name="inp_{{ i }}" id="inp_{{ i }}" maxlength="1" placeholder=".">
+                                {% endfor %}
+                            </div><br>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="set">Confirm passcode </label>
+                                <div id="inp2">
+                                    {% for i in range(7, 13) %}
+                                    <input type="text" name="inp_{{ i }}" id="inp_{{ i }}" maxlength="1"
+                                        placeholder=".">
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <button type="submit" name="setup" value="setup">Continue and Setup</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="disable" style="display: none;">
+                    <div id="dis">
+                        <p><strong>Enter 6-digit old passcode to disable:</strong></p>
+                        <div id="inp_disable">
+                            {% for i in range(13, 19) %}
+                            <input type="text" name="inp_{{ i }}" id="inp_{{ i }}" maxlength="1" placeholder=".">
+                            {% endfor %}
+                        </div>
+                        <button type="submit" name="disable" value="disable">Disable Now</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="delete" style="display: none;">
+        <span class="cls4">&times;</span>
+        <br>
+        <form
+            action="{{ url_for('delete_account', user=pro.username) }}"
+            method="POST">
+            <label for="account_delete">Are you sure that you want to delete you account ? If YES then <br>Enter your
+                Email</label>
+            <input type="email" name="email" id="email" required>
+            <button type="submit">Delete Account</button>
+        </form>
+    </div>
+    <div id="change_password" style="display: none;">
+        <div id="cp">
+            <span class="cls3">&times;</span>
+            <h4>Change-Password</h4>
+
+            <form
+                action="{{ url_for('change_password', user=pro.username) }}"
+                method="post">
+                <label for="old-password"> Old Password :</label>
+                <input type="password" name="old_pass" id="old_pass" required>
+                <label for="new_password"> New Password :</label>
+                <input type="password" name="new_pass" id="new pass" required>
+                <label for="Confirm password">Confirm Password :</label>
+                <input type="password" name="cnf_pass" id="cnf_pass" required>
+                <button type="submit" id="change_password ">Change Password</button>
+            </form>
+        </div>
+    </div>
+    <div id="myNoti" style="display: none;">
+        <span class="cls" style="float: right;">&times;</span>
+        <p><Strong>
+                <h5>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nesciunt nostrum laboriosam quos a. Quam
+                    neque nam fuga, non, error dolore magni dolorem optio, quaerat iure unde rerum at? Sit, error?</h5>
+            </Strong></p>
+        <hr>
+        <p><strong>
+                <h5>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio, hic. Tempore rerum, ab unde,
+                    doloribus recusandae debitis sit odit, fugit sed numquam error et libero delectus asperiores!
+                    Exercitationem, hic id.</h5>
+            </strong></p>
+        <hr>
+    </div>
+
+
+    <div class="header">
+        <div id="logo">
+            <img src="{{url_for('static',filename='assets/logo.png')}}" alt="">
+            {%if ver.status!= 'Verified'%}
+            <span class="material-symbols-outlined">privacy_tip</span>
+            {%else%}
+            <span class="material-symbols-outlined">
+                verified_user
+                </span>
+            {%endif%}    
+            <h3>Service Bucket</h3>
+        </div>
+        <div id="location">
+            <span class="material-symbols-outlined" style="color: orange;">
+                home_pin
+            </span>
+            <input type="search" id="search" placeholder="Enter your location or Zip code">
+            <span class="material-symbols-outlined mic">mic</span>
+            <span class="material-symbols-outlined loc">my_location</span>
+        </div>
+        <div id="links">
+            <a href="{{url_for('service_form',username=pro.username)}}"><span
+                    class="material-symbols-outlined">add</span>Add Service</a>
+            <a
+                href="{{url_for('track')}}"><span
+                    class="material-symbols-outlined">
+                    deployed_code
+                </span>Order Status</a>
+            <a onclick="toggleNotifications()"><span class="material-symbols-outlined">
+                    notifications
+                </span>Notifications</a>
+            <a onclick="mySettings()"><span style="font-size: 30px;"
+                    class="material-symbols-outlined">account_circle</span>Profile</a>
+
+        </div>
+    </div>
+    <div id="map"></div>
+
+
+
+
+
+    <hr>
+    <h2 style="padding: 10px;">!!.. Serve other is equal to serve to God ..!!</h2>
+    <div class="providers">
+        {% for each in service %}
+        <div id="provider" onclick="window.location.href='{{url_for('view_service',service_=each.service_providing_code)}}">
+
+            <img src="{{url_for('uploads',filename=each.brand_logo)}}" alt="">
+            <h3 style="margin-bottom: 0px;">{{each.service_name}} </h3>
+            <p> {{each.service_category}}</p>
+            <div class="rate">
+                <span class="material-symbols-outlined">
+                    star
+                </span><span class="material-symbols-outlined">
+                    star
+                </span><span class="material-symbols-outlined">
+                    star
+                </span><span class="material-symbols-outlined">
+                    star
+                </span><span class="material-symbols-outlined">
+                    star
+                </span>
+            </div>
+            <div class="btn" style="display: flex; align-items: center; gap: 20px;">
+                <span class="material-symbols-outlined" onclick="openModal('{{each.request_id}}')">edit</span>
+                <span class="material-symbols-outlined" onclick="window.location.href='{{ url_for('dele', request_id=each.request_id) }}'">Delete</span>
+            </div>
+        </div>
+        {%endfor%}
+
+    </div>
+
+
+    </div>
+    </div>
+
+    <!-- Modal Overlay -->
+<div id="modal-overlay" class="modal-overlay" style="display: none;">
+    <div class="modal-content" >
+        <input type="hidden" name="service_providing_code" id="service_providing_code">
+
+        
+        <span class="close-button" onclick="closeModal()">&times;</span>
+        <form id="serviceForm" action="{{ url_for('service_edit_form', request_id='PLACEHOLDER') }}" method="POST" enctype="multipart/form-data">
+            <div class="form-list">
+                <label for="service-name">Service Name</label>
+                <input type="text" name="service-name" id="service-name" placeholder="Enter service name" required>
+            </div>
+            <div class="form-list">
+                <label for="service-description">Service Description</label>
+                <textarea name="service-description" id="service-description" placeholder="Describe the service" required></textarea>
+            </div>
+            <div class="form-list">
+                <label for="services-pincode">Servicable Pincodes</label>
+                <input type="text" name="services-pincode" id="services-pincode" placeholder="Enter 6-digit pincode" onkeydown="addPincode(event)" readonly>
+                <div id="pincode-list"></div>
+                <input type="hidden" id="pincode-input" name="servicable-pincode" value="">
+            </div>
+            <div class="form-list">
+                <label for="pricing">Pricing</label>
+                <div style="display: flex; gap: 10px;">
+                    <select id="currency" name="currency" style="width: 100px;">
+                        <option value="INR">₹</option>
+                        <option value="USD">$</option>
+                        <option value="EUR">€</option>
+                        <option value="GBP">£</option>
+                        <option value="JPY">¥</option>
+                        <option value="AUD">A$</option>
+                        <option value="CAD">C$</option>
+                        <option value="CHF">CHF</option>
+                        <option value="CNY">¥</option>
+                        <option value="SEK">kr</option>
+                        <option value="NZD">NZ$</option>
+                        <option value="MXN">Mex$</option>
+                        <option value="SGD">S$</option>
+                        <option value="HKD">HK$</option>
+                        <option value="NOK">kr</option>
+                        <option value="KRW">₩</option>
+                        <option value="TRY">₺</option>
+                        <option value="RUB">₽</option>
+                        <option value="BRL">R$</option>
+                        <option value="ZAR">R</option>
+                        <option value="DKK">kr</option>
+                        <option value="PLN">zł</option>
+                        <option value="TWD">NT$</option>
+                        <option value="THB">฿</option>
+                        <option value="MYR">RM</option>
+                        <option value="IDR">Rp</option>
+                        <option value="CZK">Kč</option>
+                        <option value="HUF">Ft</option>
+                        <option value="ILS">₪</option>
+                        <option value="PHP">₱</option>
+                        <option value="AED">د.إ</option>
+                        <option value="SAR">ر.س</option>
+                        <option value="NGN">₦</option>
+                        <option value="ARS">$</option>
+                        <option value="CLP">$</option>
+                        <option value="COP">$</option>
+                        <option value="EGP">£</option>
+                        <option value="MAD">DH</option>
+                    </select>
+                    <input type="text" name="pricing" id="pricing" placeholder="Enter price details" required>
+                </div>
+            </div>
+            <div class="form-list">
+                <label for="contact-email">Contact Email</label>
+                <input type="email" name="contact-email" id="contact-email" placeholder="Enter contact email" required>
+            </div>
+            <div class="form-list">
+                <label for="contact-phone">Contact Phone</label>
+                <div style="display: flex;gap: 10px;">
+                    <select name="countryCode" id="countryCode" style="width: 50%;">
+                        <option value="+1">United States (+1)</option>
+                        <option value="+44">United Kingdom (+44)</option>
+                        <option value="+91">India (+91)</option>
+                        <option value="+61">Australia (+61)</option>
+                        <option value="+81">Japan (+81)</option>
+                        <option value="+49">Germany (+49)</option>
+                        <option value="+33">France (+33)</option>
+                        <option value="+39">Italy (+39)</option>
+                        <option value="+86">China (+86)</option>
+                        <option value="+7">Russia (+7)</option>
+                        <option value="+34">Spain (+34)</option>
+                        <option value="+55">Brazil (+55)</option>
+                        <option value="+27">South Africa (+27)</option>
+                        <option value="+82">South Korea (+82)</option>
+                        <option value="+1-264">Anguilla (+1-264)</option>
+                        <option value="+1-268">Antigua and Barbuda (+1-268)</option>
+                        <option value="+54">Argentina (+54)</option>
+                        <option value="+374">Armenia (+374)</option>
+                        <option value="+43">Austria (+43)</option>
+                        <option value="+973">Bahrain (+973)</option>
+                        <option value="+880">Bangladesh (+880)</option>
+                        <option value="+32">Belgium (+32)</option>
+                        <option value="+501">Belize (+501)</option>
+                        <option value="+1-441">Bermuda (+1-441)</option>
+                        <option value="+359">Bulgaria (+359)</option>
+                        <option value="+855">Cambodia (+855)</option>
+                        <option value="+1">Canada (+1)</option>
+                        <option value="+56">Chile (+56)</option>
+                        <option value="+57">Colombia (+57)</option>
+                        <option value="+506">Costa Rica (+506)</option>
+                        <option value="+385">Croatia (+385)</option>
+                        <option value="+357">Cyprus (+357)</option>
+                        <option value="+420">Czech Republic (+420)</option>
+                        <option value="+45">Denmark (+45)</option>
+                        <option value="+20">Egypt (+20)</option>
+                        <option value="+358">Finland (+358)</option>
+                        <option value="+62">Indonesia (+62)</option>
+                        <option value="+353">Ireland (+353)</option>
+                        <option value="+972">Israel (+972)</option>
+                        <option value="+370">Lithuania (+370)</option>
+                        <option value="+352">Luxembourg (+352)</option>
+                        <option value="+60">Malaysia (+60)</option>
+                        <option value="+31">Netherlands (+31)</option>
+                        <option value="+64">New Zealand (+64)</option>
+                        <option value="+234">Nigeria (+234)</option>
+                        <option value="+47">Norway (+47)</option>
+                        <option value="+63">Philippines (+63)</option>
+                        <option value="+48">Poland (+48)</option>
+                        <option value="+351">Portugal (+351)</option>
+                        <option value="+966">Saudi Arabia (+966)</option>
+                        <option value="+65">Singapore (+65)</option>
+                        <option value="+46">Sweden (+46)</option>
+                        <option value="+41">Switzerland (+41)</option>
+                        <option value="+66">Thailand (+66)</option>
+                        <option value="+90">Turkey (+90)</option>
+                        <option value="+971">United Arab Emirates (+971)</option>
+                        <option value="+598">Uruguay (+598)</option>
+                        <option value="+58">Venezuela (+58)</option>
+                        <option value="+84">Vietnam (+84)</option>
+                        <option value="+263">Zimbabwe (+263)</option>
+                    </select>
+                    <input type="tel" name="contact-phone" id="contact-phone" placeholder="Enter contact phone number" required>
+                </div>
+            </div>
+            <div class="form-list">
+                <label for="service-category">Service Category</label>
+                <select name="service-category" id="service-category" required>
+                    <option value="">Select a category</option>
+        
+                    <option value="">Select a category</option>
+                    <option value="cleaning">Cleaning Services</option>
+                    <option value="plumbing">Plumbing Services</option>
+                    <option value="electrical">Electrical Services</option>
+                    <option value="gardening">Lawn and Garden Care</option>
+                    <option value="painting">Painting Services</option>
+                    <option value="carpet_cleaning">Carpet Cleaning</option>
+                    <option value="window_cleaning">Window Cleaning</option>
+                    <option value="pest_control">Pest Control</option>
+                    <option value="appliance_repair">Appliance Repair</option>
+                    <option value="pool_maintenance">Pool Maintenance</option>
+                    <option value="smart_home_installation">Smart Home Installation</option>
+                    <option value="home_security">Home Security Installation</option>
+                    <option value="hvac">HVAC Maintenance</option>
+                    <option value="moving">Moving Services</option>
+                    <option value="waste_removal">Waste Removal</option>
+                    <option value="handyman">Handyman Services</option>
+                    <option value="furniture_assembly">Furniture Assembly</option>
+                    <option value="interior_design">Interior Design</option>
+                    <option value="chimney_sweep">Chimney Sweep</option>
+                    <option value="tree_removal">Tree Trimming and Removal</option>
+                </select>
+            </div>
+            <div class="form-list" style="display: flex; gap :5px;">
+                <button type="reset" class="submit-button" style="background: red;">Reset Service</button>
+                <button type="submit" class="submit-button">Submit Service</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="{{url_for('static',filename='js/map.js')}}"></script>
+    <script src="https:/maps.googleapis.com/maps/api/js?key={{google_map_api_key}}&libraries=places"></script>
+    <script src="{{url_for('static',filename='js/script.js')}}"></script>
+    <script src="{{url_for('static',filename='js/mic.js')}}"></script>
+    <script src="{{url_for('static',filename='js/index.js')}}"></script>
+    <script>
+
+
+
+function openModal(request_id) {
+    document.getElementById("modal-overlay").style.display = 'flex';
+
+    $.ajax({
+        url: '/get_service_data/' + request_id, 
+        method: 'GET',
+        success: function (data) {
+            if (data.error) {
+                alert('Service data not found');
+            } else {
+            
+                document.getElementById("service_providing_code").value = data.service_providing_code;
+                document.getElementById("service-name").value = data.service_name;
+                document.getElementById("service-description").value = data.service_description;
+                document.getElementById("services-pincode").value = data.servicable_pincode;
+                
+           
+                populatePincodes(data.servicable_pincode);  
+                
+                document.getElementById("pricing").value = data.pricing;
+                document.getElementById("contact-email").value = data.contact_email;
+                document.getElementById("contact-phone").value = data.contact_phone;
+                document.getElementById("service-category").value = data.service_category;
+                document.getElementById("currency").value = data.currency;
+                document.getElementById("countryCode").value = data.country_code;
+
+                var formAction = document.getElementById("serviceForm").action;
+                formAction = formAction.replace('PLACEHOLDER', request_id);
+                document.getElementById("serviceForm").action = formAction; 
+            }
+        },
+        error: function () {
+            alert('Error fetching service data');
+        }
+    });
+}
+
+
+function populatePincodes(pincodes) {
+    const pincodeListElement = document.getElementById("pincode-list");
+    pincodeListElement.innerHTML = '';  
+
+   
+    pincodes.split(',').forEach(pincode => {
+        const pincodeElement = document.createElement("div");
+        pincodeElement.textContent = pincode;
+        pincodeListElement.appendChild(pincodeElement);
+    });
+}
+
+function closeModal() {
+  
+    document.getElementById('modal-overlay').style.display = 'none';
+}
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order | Tracking </title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/tracking.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/header.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    <script src="{{url_for('static',filename='js/tracking.js')}}"></script>
+    <script src="{{url_for('static',filename='js/index.js')}}"></script>
+    <div class="header">
+        <div id="logo">
+            <img src="{{url_for('static',filename='assets/logo.png')}}" alt="">
+            <h3>Service Bucket</h3>
+        </div>
+        <div id="location" style="display: flex;align-items: center;gap: 10px;">       
+            <span class="material-symbols-outlined" style="color: orange;">
+                deployed_code
+            </span>
+            <h3>Order | Tracking</h3>
+        </div>
+        <div id="links">
+            <a href="{{url_for('cart',username=current_user.username)}}"><span
+                class="material-symbols-outlined">shopping_cart</span>Cart</a>          
+                 <a href="{{url_for('customer_dashboard',user=current_user.username)}}"><span class="material-symbols-outlined">
+                home
+                </span>Home</a>
+            <a href=""><span class="material-symbols-outlined">
+                notifications
+                </span>Notifications</a>
+            <a href="/logout" ><span style="font-size: 30px;" class="material-symbols-outlined">logout</span>Logout</a>
+            
+        </div>
+    </div>
+    <div class="container">
+        <div id="top">
+            <h2 style="text-align: center;display:flex;align-items: center;justify-content: center;gap: 10px;"><span class="material-symbols-outlined">deployed_code</span>Order Tracking</h2>
+            <div id="filter">
+                <div id="box">
+                    <span class="material-symbols-outlined">search</span>
+                    <input type="search" name="order" id="order" placeholder="Search your order to track it ..">
+                </div>
+                <div class="dropdown-container">
+                    <div class="dropdown-button" id="box" onclick="toggleDropdown('filter_drop_')">
+                        <p>Filter</p> <span class="material-symbols-outlined">page_info</span>
+                    </div>
+                    <div id="filter_drop_" class="dropdown-content">
+                        <div class="listy"> 
+                            <div id="filter_order_status">
+                                <div class="listy">
+                                    <label><input type="checkbox" value="pending" onchange="searchOrderStatus()">Pending Orders</label>
+                                    <label><input type="checkbox" value="completed" onchange="searchOrderStatus()">Completed Orders</label>
+                                    <label><input type="checkbox" value="waiting" onchange="searchOrderStatus()">Waiting Orders</label>
+                                    <label><input type="checkbox" value="declined" onchange="searchOrderStatus()">Declined Orders</label>
+                                    <label><input type="checkbox" value="under_process" onchange="searchOrderStatus()">Under Process Orders</label>
+                                </div>
+                            </div>
+                            
+                    </div>
+                </div>
+                </div>
+                <div class="dropdown-container">
+                    <div class="dropdown-button" id="box" onclick="toggleDropdown('sort_drop_')">
+                        <p>Sort</p> <span class="material-symbols-outlined">sort</span>
+                    </div>
+                    <div id="sort_drop_" class="dropdown-content">
+                        <div class="listy">
+                            <label><input type="radio" name="sort" value="date_asc" onchange="sortServices()">Sort by Date (Ascending)</label>
+                            <label><input type="radio" name="sort" value="date_desc" onchange="sortServices()">Sort by Date (Descending)</label>
+                            <label><input type="radio" name="sort" value="rate_asc" onchange="sortServices()">Sort by Rate (Low to High)</label>
+                            <label><input type="radio" name="sort" value="rate_desc" onchange="sortServices()">Sort by Rate (High to Low)</label>
+                            <label><input type="radio" name="sort" value="price_low_high" onchange="sortServices()">Sort by Price (Low to High)</label>
+                            <label><input type="radio" name="sort" value="price_high_low" onchange="sortServices()">Sort by Price (High to Low)</label>
+                            <label><input type="radio" name="sort" value="name_asc" onchange="sortServices()">Sort by Name (A-Z)</label>
+                            <label><input type="radio" name="sort" value="name_desc" onchange="sortServices()">Sort by Name (Z-A)</label>
+                        </div>
+                        
+                </div>
+            </div>
+            </div>
+        </div>
+        <div id="orders">
+            <table>
+                <thead>
+                    <th>Order-id</th>
+                    <th>Service</th>
+                    <th>Address</th>
+                    <th>Payment Mode</th>
+                    <th>Order Status</th>
+                    <th>Work Status</th>
+                    <th>Rate</th>
+                </thead>
+                <tbody>
+                    {% for each,tre,sr,ad,kd in order%}
+                    <tr class="data">
+                        <td >{{each.order_id}}</td>
+                        <td>{{sr.service_name}} | {{sr.service_category}}</td>
+                        <td >
+                            {{ ad.first_name }} {{ ad.last_name }}, 
+                            Address - {{ ad.address_description }},
+                            Landmark - {{ ad.landmark }},
+                            City - {{ ad.city }},
+                            State - {{ ad.state }},
+                            Country - {{ ad.country }},
+                            Pincode - {{ ad.pincode }},
+                            Contact: {{ ad.contact_num }},
+                            Alternate: {{ ad.alternate_num }}
+                        </td>
+                        <td>{{tre.payment_mode}}</td>
+                        <td>{{each.order_status}}</td>
+                        <td>
+                            <span class="material-symbols-outlined" onclick="toggleDetails(this)">arrow_drop_down</span>
+                        </td>
+                        <td onclick="showForm('{{each.order_id}}')">
+                            {%if(each.rating) %}
+                               {%for i in range(each.rating)%}
+                                <span class="material-symbols-outlined" style="color: #deb217;">star</span>
+                                {%endfor%}
+                            {%else%}
+                                 <button style="background: #28a745;padding: 10px;">Give Feedback and rating</button>  
+                             {%endif%}      
+
+
+                        </td>
+                    </tr>
+                    <tr class="details" style="display: none;">
+                        <td colspan="7" >
+                            <div class="tracker" style="display: flex;flex-direction: column;gap: 100px;margin-left:700px;margin-bottom: 30px;margin-top: 30px;">
+        
+                                <div id="ord"  style="display: flex;align-items:flex-start;gap: 10px;">
+                                <span class="material-symbols-outlined">deployed_code</span>
+                                <div style="display: flex;flex-direction: column;justify-content: flex-start;">
+                                <p>Order-id : {{each.order_id}}</p>
+                                <p style="color: grey;">{{sr.service_name}} | {{sr.service_category}}</p>
+                                <p style="color: grey;">Contact no : 8959659679,8954689679</p>
+                                </div>
+                                </div>
+                                <div id="ord" style="display: flex;align-items:flex-start;gap: 10px;">
+                                    <span class="material-symbols-outlined" ">circle</span>
+                                    <div style="display: flex;flex-direction: column;justify-content: flex-start;">
+                                    <p>Service Confirmed</p>
+                                    <p style="color: grey;">Helper name : {{kd.helper_name}}</p>
+                                    <p style="color: grey;">Contact no :  {{kd.helper_contact}}</p>
+                                    </div>
+                                </div>
+                                <div id="ord" style="display: flex;align-items:flex-start;gap: 10px;">
+                                    <span class="material-symbols-outlined">circle</span>
+                                    <div style="display: flex;flex-direction: column;justify-content: flex-start;">
+                                    <p>On the way of your House </p>
+                                    <p style="color: grey;">Address : {{ ad.first_name }} {{ ad.last_name }}, 
+                                        Address - {{ ad.address_description }},
+                                        Landmark - {{ ad.landmark }},
+                                        City - {{ ad.city }},
+                                        State - {{ ad.state }},
+                                        Country - {{ ad.country }},
+                                        Pincode - {{ ad.pincode }},
+                                        Contact: {{ ad.contact_num }},
+                                        Alternate: {{ ad.alternate_num }}</p>
+                                    <p style="color: grey;">Reach you by {{kd.estimated_time}}</p>
+                                    </div>
+                                </div>
+                                <div id="ord" style="display: flex;align-items:flex-start;gap: 10px;">
+                                    <span class="material-symbols-outlined">circle</span>
+                                    <div style="display: flex;flex-direction: column;justify-content: flex-start;">
+                                    <p>Helper at your Doorstep</p>
+                                    <p style="color: grey;">Take Starting Code From James and Assign your Work </p>
+                                    <p style="color: grey;"><input style="border: 0.5px solid black;border-radius: 10px;padding: 5px; " type="text" name="code" id="code" placeholder=". . . . . ." maxlength="6"></p>
+                                    </div>
+                                </div>
+                                <div id="ord" style="display: flex;align-items:flex-start;gap: 10px;">
+                                    <span class="material-symbols-outlined">circle</span>
+                                    <div style="display: flex;flex-direction: column;justify-content: flex-start;">
+                                    <p>Work Completed</p>
+                                    <p style="color: grey;">Take Starting Code From James and Assign your Work </p>
+                                    <input style="border: 0.5px solid black;border-radius: 10px;padding: 5px; " type="text" name="code" id="code" placeholder=". . . . . ." maxlength="6">
+                                    </div>
+                                </div>
+                                <div id="ord" style="display: flex;align-items:flex-start;gap: 10px;">
+                                    <span class="material-symbols-outlined">circle</span>
+                                    <div style="display: flex;flex-direction: column;justify-content: flex-start;">
+                                    <p>Payment Done </p>
+                                    <p style="color: grey;">Transaction id : {{tre.transaction_id}} </p>
+                                    <p style="color: grey;">Have a great day ! pls rate us and provide us more chances  to serve </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                    
+                </tbody>
+                
+        </div>
+    </div>
+    <div class="popup-form" id="feedbackForm">
+        <button class="close-button" onclick="closeForm()">×</button>
+        <h2 style="text-align: center;">Feedback</h2>
+        <form action="/rate/{{ order_id }}" id="form" method="POST">
+            <div class="rate">
+                <input type="radio" id="star5" name="rate" value="5" />
+                <label for="star5" title="text">5 stars</label>
+                <input type="radio" id="star4" name="rate" value="4" />
+                <label for="star4" title="text">4 stars</label>
+                <input type="radio" id="star3" name="rate" value="3" />
+                <label for="star3" title="text">3 stars</label>
+                <input type="radio" id="star2" name="rate" value="2" />
+                <label for="star2" title="text">2 stars</label>
+                <input type="radio" id="star1" name="rate" value="1" />
+                <label for="star1" title="text">1 star</label>
+            </div>
+            <textarea class="feedback-text" rows="4" placeholder="Write your feedback here..." name="feedback"></textarea>
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+    
+    <script>
+        function showForm(order_id) {
+            document.getElementById('feedbackForm').classList.add('active');
+            document.getElementById('form').action="/rate/" + order_id;
+        }
+
+        function closeForm() {
+            document.getElementById('feedbackForm').classList.remove('active');
+        }
+
+        function submitFeedback() {
+            const rating = document.querySelector('input[name="rate"]:checked')?.value || "No rating given";
+            const feedbackText = document.querySelector('.feedback-text').value;
+
+            alert(`Feedback submitted:\nRating: ${rating}\nFeedback: ${feedbackText}`);
+            closeForm();
+        }
+    </script>
+<style>       
+ .feedback-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 20px;
+    cursor: pointer;
+}
+.popup-form {
+    display: none;
+    position: fixed;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+}
+.popup-form.active {
+    display: block;
+}
+.popup-form h2 {
+    margin-top: 0;
+}
+
+.feedback-text {
+    width: 100%;
+    margin-top: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+}
+.submit-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 90%;
+    margin-top: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+.rate {
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+</style>
+</body>
+</html>

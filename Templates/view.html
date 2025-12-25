@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Request Overview</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 10px 10px 0 0;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-align: center;
+        }
+        .brand-logo {
+            max-height: 150px;
+            object-fit: contain;
+        }
+        .info-group {
+            margin-bottom: 10px;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h1 class="text-center mb-4">Services We Offer</h1>
+        <div class="card">
+            <div class="card-header">
+                {{ service.service_name }}
+            </div>
+            <div class="card-body">
+                <div class="row">
+              
+                    <div class="col-md-4 text-center">
+                        <img src="{{ url_for('uploads', filename=service.brand_logo) }}" alt="Brand Logo" class="brand-logo" style="border-radius: 50%;">
+                    </div>
+                   
+                    <div class="col-md-8">
+                        <div class="info-group">
+                            <span class="info-label">Description:</span>
+                            <span>{{ service.service_description }}</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Serviceable Pincode:</span>
+                            <span>{{ service.servicable_pincode }}</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Category:</span>
+                            <span>{{ service.service_category }}</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Contact Email:</span>
+                            <span>{{ service.contact_email }}</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Contact Phone:</span>
+                            <span>{{ service.contact_phone }}</span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <!-- Additional Details -->
+                    <div class="col-md-6">
+                        <div class="info-group">
+                            <span class="info-label">Pricing:</span>
+                            <span>{{ service.pricing }}</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Currency:</span>
+                            <span>{{ service.currency }}</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Country Code:</span>
+                            <span>{{ service.country_code }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-group">
+                            <span class="info-label">Service Code:</span>
+                            <span>{{ service.service_providing_code }}</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">User ID:</span>
+                            <span>{{ service.user_id }}</span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <h5>Previous Work Images</h5>
+                <div class="d-flex gap-2 flex-wrap">
+                    {% for image in service.prev_Work_images.split(',') %}
+                    <img src="{{ url_for('uploads', filename=image) }}" alt="Previous Work" class="img-thumbnail" style="max-width: 150px;">
+                    {% endfor %}
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <a onclick="window.history.back()" class="btn btn-secondary">Go Back</a>
+                    <a href="{{ url_for('add_to_cart', service_providing_code=service.service_providing_code,username=current_user.username) }}" class="btn btn-primary">Hire Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

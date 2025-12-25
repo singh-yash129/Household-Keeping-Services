@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="{{url_for('static',filename='css/admin.css')}}">
+    <title>Document</title>
+</head>
+<style>
+   
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+.table-container {
+  margin: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.table-header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+.table-header th {
+  border-bottom: 2px solid #fff;
+}
+
+.table-body {
+  padding: 10px;
+}
+
+.table-body tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.table-body tr:last-child {
+  border-bottom: none;
+}
+
+@media only screen and (max-width: 768px) {
+  table {
+    font-size: 14px;
+  }
+  th, td {
+    padding: 5px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  table {
+    font-size: 12px;
+  }
+  th, td {
+    padding: 3px;
+  }
+}
+    
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px;
+}
+
+.tab {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.tab:hover {
+  background-color: #f2f2f2;
+}
+
+.tab.active {
+  background-color: #333;
+  color: #fff;
+}
+
+.table-container {
+  padding: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+.table-header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+.table-header th {
+  border-bottom: 2px solid #fff;
+}
+
+.table-body {
+  padding: 10px;
+}
+
+.table-body tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.table-body tr:last-child {
+  border-bottom: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .tabs {
+    flex-direction: column;
+  }
+  .tab {
+    width: 100%;
+    margin: 10px 0;
+  }
+  table {
+    font-size: 14px;
+  }
+  th, td {
+    padding: 5px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  table {
+    font-size: 12px;
+  }
+  th, td {
+    padding: 3px;
+  }
+}
+</style>
+<body>
+    <div class="header">
+        <div id="logo">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="IEAS Logo">
+        </div>
+        <div id="links">
+            <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+            <a href="{{url_for('verify_professioanal')}}">Verification</a>
+            <a href="{{ url_for('help_request') }}">Help</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+  
+<div class="tabs">
+    
+    <div class="tab" id="tab-adds">
+      <span>Order</span>
+    </div>
+    
+    <div class="tab" id="tab-payments">
+      <span>Payments</span>
+    </div>
+  </div>
+  
+  <div class="table-container">
+    
+    <div class="table-body" id="table-adds-body">
+      <h2>Adds</h2>
+      <table>
+        <tr>
+          <th>Order ID</th>
+          <th>User ID</th>
+          <th>Service ID</th>
+          <th>Address id</th>
+          <th>Rating</th>
+          <th>Order Status</th>
+          <th>Feedback</th>
+
+        </tr>
+        {% for add in order %}
+        <tr>
+          <td>{{ add.order_id }}</td>
+          <td>{{ add.user_id }}</td>
+          <td>{{ add.service_id }}</td>
+          <td>{{ add.address_id }}</td>
+          <td>{{ add.rating }}</td>
+          <td>{{ add.order_status }}</td>
+          <td>{{ add.feedback }}</td>
+
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    
+    
+    <div class="table-body" id="table-payments-body">
+      <h2>Payments</h2>
+      <table>
+        <tr>
+          <th>User ID</th>
+          <th>Order ID</th>
+          <th>Transaction ID</th>
+          <th>Payments Mode</th>
+          <th>Payments Date</th>
+          <th>Payment Status</th>
+          <th>Payment Amount</th>
+      
+        </tr>
+        {% for payment in payments %}
+        <tr>
+          <td>{{ payment.user_id }}</td>
+          <td>{{ payment.order_id }}</td>
+          <td>{{ payment.transaction_id }}</td>
+          <td>{{ payment.payment_mode }}</td>
+          <td>{{ payment.payment_date }}</td>
+          <td>{{ payment.payment_status}}</td>
+          <td>{{payment.payment_amount}}</td>
+     
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const tableBodies = document.querySelectorAll('.table-body');
+    
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((tab) => tab.classList.remove('active'));
+        tableBodies.forEach((tableBody) => tableBody.style.display = 'none');
+        
+        tab.classList.add('active');
+        tableBodies[index].style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html>

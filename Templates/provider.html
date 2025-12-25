@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provider | Household Services</title>
+    <link rel="stylesheet" href="/Static/css/dash.css">
+    <link rel="stylesheet" href="/Static/css/provider.css">
+    <link rel="stylesheet" href="/Static/css/header.css">
+    <link rel="stylesheet" href="https:/fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    <div class="main">
+         <div id="top">
+            <span class="material-symbols-outlined">
+                arrow_back
+            </span>
+            <h3>Service Bucket</h3>
+             <div style="display: flex;align-items: center;gap: 60px;">
+                <span class="material-symbols-outlined">
+                  shopping_cart
+                </span>
+                <span class="material-symbols-outlined">
+                    favorite
+                </span>
+             </div>
+         </div>
+         <div class="gallery-container">
+            <!-- Each image with different sizes -->
+            <div class="image-box small"><img src="/Static/assets/wave_8109659.png" alt="Image 1" onclick="openPopup(0)"></div>
+            <div class="image-box medium"><img src="/Static/assets/home.png" alt="Image 2" onclick="openPopup(1)"></div>
+            <div class="image-box large"><img src="/Static/assets/google.png" alt="Image 3" onclick="openPopup(2)"></div>
+            <div class="image-box small"><img src="/Static/assets/wave_8109659.png" alt="Image 4" onclick="openPopup(3)"></div>
+            <div class="image-box medium"><img src="/Static/assets/wave_8109659.png" alt="Image 5" onclick="openPopup(4)"></div>
+            <div class="image-box large"><img src="/Static/assets/wave_8109659.png" alt="Image 6" onclick="openPopup(5)"></div>
+          </div>
+          
+          <!-- Popup Overlay for Fullscreen Slideshow -->
+          <div class="popup-overlay" id="popupOverlay" style="display: none;">
+            <button class="close-btn" onclick="closePopup()">Close</button>
+            <button class="nav-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+            <button class="nav-btn next" onclick="changeSlide(1)">&#10095;</button>
+            <div class="popup-content">
+              <img src="" alt="Slideshow Image" id="popupImage">
+            </div>
+          </div>
+    </div>
+    <hr>
+     <h3 style="text-align: center;">Make your life easier with us, Give us One chance ..</h3>
+     <div class="providers">
+        <div id="provider" onclick="openPopup_1()">
+            <img src="/Static/assets/logo.png" alt="">
+            <h3>Services Bucket</h3>
+            <div class="rate">
+                <span class="material-symbols-outlined">
+                    star
+                    </span><span class="material-symbols-outlined">
+                        star
+                        </span><span class="material-symbols-outlined">
+                            star
+                            </span><span class="material-symbols-outlined">
+                                star
+                                </span><span class="material-symbols-outlined">
+                                    star
+                                    </span>
+            </div>
+            <button onclick="updateCart()">Hire Us ! Go to Cart</button>
+
+        </div>
+        <div id="provider" onclick="openPopup_1()">
+            <img src="/Static/assets/logo.png" alt="">
+            <h3>Services Bucket</h3>
+            <div class="rate">
+                <span class="material-symbols-outlined">
+                    star
+                    </span><span class="material-symbols-outlined">
+                        star
+                        </span><span class="material-symbols-outlined">
+                            star
+                            </span><span class="material-symbols-outlined">
+                                star
+                                </span><span class="material-symbols-outlined">
+                                    star
+                                    </span>
+            </div>
+            <button onclick="updateCart()">Hire Us ! Go to Cart</button>
+
+        </div>
+        <div id="provider" onclick="openPopup_1()">
+            <img src="/Static/assets/logo.png" alt="">
+            <h3>Services Bucket</h3>
+            <div class="rate">
+                <span class="material-symbols-outlined">
+                    star
+                    </span><span class="material-symbols-outlined">
+                        star
+                        </span><span class="material-symbols-outlined">
+                            star
+                            </span><span class="material-symbols-outlined">
+                                star
+                                </span><span class="material-symbols-outlined">
+                                    star
+                                    </span>
+            </div>
+            <button onclick="updateCart()">Hire Us ! Go to Cart</button>
+
+        </div>
+        <div id="provider" onclick="openPopup_1()">
+            <img src="/Static/assets/logo.png" alt="">
+            <h3>Services Bucket</h3>
+            <div class="rate">
+                <span class="material-symbols-outlined">
+                    star
+                    </span><span class="material-symbols-outlined">
+                        star
+                        </span><span class="material-symbols-outlined">
+                            star
+                            </span><span class="material-symbols-outlined">
+                                star
+                                </span><span class="material-symbols-outlined">
+                                    star
+                                    </span>
+            </div>
+            <button onclick="updateCart()">Hire Us ! Go to Cart</button>
+
+        </div>
+        <div id="provider" onclick="openPopup_1()">
+            <img src="/Static/assets/logo.png" alt="">
+            <h3>Services Bucket</h3>
+            <div class="rate">
+                <span class="material-symbols-outlined">
+                    star
+                    </span><span class="material-symbols-outlined">
+                        star
+                        </span><span class="material-symbols-outlined">
+                            star
+                            </span><span class="material-symbols-outlined">
+                                star
+                                </span><span class="material-symbols-outlined">
+                                    star
+                                    </span>
+            </div>
+            <button onclick="updateCart()">Hire Us ! Go to Cart</button>
+
+        </div>
+        <div id="provider" onclick="openPopup_1()">
+            <img src="/Static/assets/logo.png" alt="">
+            <h3>Services Bucket</h3>
+            <div class="rate">
+                <span class="material-symbols-outlined">
+                    star
+                    </span><span class="material-symbols-outlined">
+                        star
+                        </span><span class="material-symbols-outlined">
+                            star
+                            </span><span class="material-symbols-outlined">
+                                star
+                                </span><span class="material-symbols-outlined">
+                                    star
+                                    </span>
+            </div>
+            <button onclick="updateCart()">Hire Us ! Go to Cart</button>
+
+        </div>
+        <div id="provider" onclick="openPopup_1()">
+            <img src="/Static/assets/logo.png" alt="">
+            <h3>Services Bucket</h3>
+            <div class="rate">
+                <span class="material-symbols-outlined">
+                    star
+                    </span><span class="material-symbols-outlined">
+                        star
+                        </span><span class="material-symbols-outlined">
+                            star
+                            </span><span class="material-symbols-outlined">
+                                star
+                                </span><span class="material-symbols-outlined">
+                                    star
+                                    </span>
+                                    </div>
+                                    <button onclick="updateCart()">Hire Us ! Go to Cart</button>
+
+                                    </div>
+                                    </div>
+
+<div class="service-pop">
+    <div class="services-popout">
+        <span class="close-popup-btn" onclick="closePopup_1()">&times;</span>
+        <div id="ser">
+            <div id="pic">
+                <img src="/Static/assets/woman-8686907_1280.png" alt="">
+                <h3 style="margin: 0;">Service Name</h3><p>by service Bucket</p>
+               <div id="apn">
+                <span class="material-symbols-outlined">star</span>
+                <span class="material-symbols-outlined">star</span>
+                <span class="material-symbols-outlined">star</span>
+                <span class="material-symbols-outlined">star</span>
+                <span class="material-symbols-outlined">star</span></div>
+            </div>
+            
+            <div id="description">
+                <strong><p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Delectus deserunt corrupti assumenda, ipsa dolor natus illo quo? Fugit voluptate nisi nesciunt, tempora ut soluta nobis iste, eligendi cupiditate quibusdam dolor?</p></strong>
+            </div>
+        </div>
+        <div class="faq-container">
+            <h1>Frequently Asked Questions</h1>
+            
+            <div class="faq-item">
+                <div class="question">1. What types of cleaning services do you offer?</div>
+                <div class="answer">We offer residential cleaning, deep cleaning, move-in/move-out cleaning, office cleaning, post-construction cleaning, and more.</div>
+            </div>
+        
+            <div class="faq-item">
+                <div class="question">2. How do I book a cleaning service?</div>
+                <div class="answer">You can book through our website or by calling our customer service team. Just select your service, and choose a convenient date and time.</div>
+            </div>
+        
+            <div class="faq-item">
+                <div class="question">3. Do I need to provide my own cleaning supplies?</div>
+                <div class="answer">No, our cleaners come equipped with all necessary supplies. If you prefer specific products, feel free to let us know, and we can use them.</div>
+            </div>
+        
+            <div class="faq-item">
+                <div class="question">4. Are your cleaners insured and background-checked?</div>
+                <div class="answer">Yes, all our cleaners are thoroughly background-checked and insured for your peace of mind.</div>
+            </div>
+        
+            <div class="faq-item">
+                <div class="question">5. What is included in a standard cleaning?</div>
+                <div class="answer">A standard cleaning includes dusting, vacuuming, sweeping, mopping, bathroom cleaning, and kitchen surface cleaning. Additional services can be added.</div>
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+<script src="/Static/js/provider.js"></script>
+</body>
+</html>

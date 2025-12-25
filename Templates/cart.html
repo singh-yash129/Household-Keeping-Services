@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Household Services | Cart</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/cart.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+
+    <div class="form-popup" id="updateProfileForm">
+        <form  class="form-container" action="{{url_for('add_new_address',user=current_user.username)}}" method="post">
+            <h2 class="form-title">Update Profile</h2>
+    
+            <!-- Personal Information -->
+            <div id="noc">
+                <div class="form-group">
+                    <label for="firstName"><b>First Name <span class="required">*</span></b></label>
+                    <input type="text" id="firstName" placeholder="Enter your first name" name="firstName"  required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName"><b>Last Name <span class="required">*</span></b></label>
+                    <input type="text" id="lastName" placeholder="Enter your last name" name="lastName"  required>
+                </div>
+            </div>
+            <div id="noc">
+                <div class="form-group">
+                    <label for="mobileNumber"><b>Mobile Number <span class="required">*</span></b></label>
+                    <input type="tel" id="mobileNumber" placeholder="Enter your mobile number" name="mobileNumber"  required>
+                </div>
+                <div class="form-group">
+                    <label for="alternateNumber"><b>Alternate Number</b></label>
+                    <input type="tel" id="alternateNumber" placeholder="Enter alternate number" name="alternateNumber" >
+                </div>
+            </div>
+            <!-- Address Information -->
+            <h3 class="section-title">Address Details</h3>
+            <div class="form-group">
+                <label for="streetAddress"><b>Street Address <span class="required">*</span></b></label>
+                <textarea id="streetAddress" placeholder="Enter your street address" name="streetAddress" required rows="10" cols="60"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="city"><b>City <span class="required">*</span></b></label>
+                <input type="text" id="city" placeholder="Enter your city" name="city" required>
+            </div>
+            <div class="form-group">
+                <label for="state"><b>State <span class="required">*</span></b></label>
+                <input type="text" id="state" placeholder="Enter your state" name="state"  required>
+            </div>
+            <div id="noc">
+                <div class="form-group">
+                    <label for="country"><b>Country <span class="required">*</span></b></label>
+                    <input type="text" id="country" placeholder="Enter your country" name="country" required>
+                </div>
+                <div class="form-group">
+                    <label for="pincode"><b>Pincode <span class="required">*</span></b></label>
+                    <input type="text" id="pincode" placeholder="Enter your pincode" name="pincode"  required>
+                </div>
+                <div class="form-group">
+                    <label for="landmarks"><b>Landmarks</b></label>
+                    <input type="text" id="landmarks" placeholder="Enter nearby landmarks" name="landmarks" >
+                </div>
+            </div>
+    
+            <!-- Action Buttons -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-submit">Submit</button>
+                <button type="button" class="btn btn-cancel" onclick="closeForm()">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <div class="container">
+        <div class="tab">
+            <div id="back" >
+                <span class="material-symbols-outlined"style='cursor: pointer;' onclick="window.history.back()">
+                    arrow_back
+                </span>
+            </div>
+            <div id="sys" >
+                <!-- Tab assets -->
+                <div id="sys1">
+                    <span class="material-symbols-outlined icon tab" data-step="0">
+                        shopping_cart
+                    </span>
+                    <span class="material-symbols-outlined icon tab" data-step="1">
+                        home
+                    </span>
+                    <span class="material-symbols-outlined icon tab" data-step="2">
+                        payments
+                    </span>
+                    <span class="material-symbols-outlined icon tab" data-step="3">
+                        task_alt
+                    </span>
+                </div>
+                <!-- Progress Circles -->
+                <div id="sys2">
+                    <span class="material-symbols-outlined step">
+                        circle
+                    </span>
+                    <div class="line"></div>
+                    <span class="material-symbols-outlined step">
+                        circle
+                    </span>
+                    <div class="line"></div>
+                    <span class="material-symbols-outlined step">
+                        circle
+                    </span>
+                    <div class="line"></div>
+                    <span class="material-symbols-outlined step">
+                        circle
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="form-section">
+            <div class="tab-content" data-step="0">
+                <form id="form1">
+                   <div id="checkout">
+                    <span class="material-symbols-outlined">
+                        shopping_cart
+                        </span>
+                      
+                    </div>
+                    <div id="box" class="cart-box">
+                        <table class="cart-table">
+                            <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>Provider</th>
+                                    <th>Services</th>
+                                    <th>Date</th>
+                                    <th>Price</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tre,each in cart_item%}
+
+                                <tr>
+                                    <td><input type="checkbox" name="service[]" value="{{each.item_id}}" data-price="{{each.price}}"></td>
+                                    <td>{{each.user_id}}</td>
+                                    <td>{{tre.service_name}}</td>
+                                    <td>09/22/2024</td>
+                                    <td>{{each.price}}</td>
+                                    <td>
+                                        <span class="material-symbols-outlined delete-icon" style="cursor:pointer;" onclick="window.location.href='{{url_for('remove_cart_item',item_id=each.item_id,cart_id=each.cart_id,user_id=each.user_id)}}'">
+                                            delete
+                                        </span>
+                                    </td>
+                                </tr> 
+                                {%endfor%}                            
+                            </tbody>
+                        </table>
+                        <div class="fixed-footer">
+                            <div class="total-amount">
+                                <p>Total: $<span id="total-value">0</span></p>
+                            </div>
+                            <div class="confirm-btn-container">
+                                <button type="button" id="saveBtn" class="confirm-btn">Confirm Booking</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-content" data-step="1" >
+                <form id="form2">
+                    <div id="checkout">
+                        <span class="material-symbols-outlined">
+                            home
+                            </span>
+                        </div>
+                        <div id="box" class="cart-box">
+                            <table class="cart-table">
+                                <thead>
+                                    <tr>
+                                        <th>Select</th>
+                                        <th>Addresses</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in address %}
+                                    <tr>
+                                        <td><input type="radio" name="address" id="address_{{ i.address_id }}"></td>
+                                        <td>
+                                            {{ i.first_name }} {{ i.last_name }}, 
+                                            Address - {{ i.address_description }},
+                                            Landmark - {{ i.landmark }},
+                                            City - {{ i.city }},
+                                            State - {{ i.state }},
+                                            Country - {{ i.country }},
+                                            Pincode - {{ i.pincode }},
+                                            Contact: {{ i.contact_num }},
+                                            Alternate: {{ i.alternate_num }}
+                                        </td>
+                                        <td>
+                                            <span class="material-symbols-outlined delete-icon" onclick="window.location.href='{{url_for('delete_address', address_id=i.address_id)}}'">
+                                              delete
+                                            </span>
+                                          </td>                                    </tr>
+                                    {% endfor %}
+                                    
+
+                        </tbody>
+                        </table>
+                        <div class="fixed-footer">
+                            <div class="add-btn">
+                                <a onclick="openForm()">Add New Address</a>
+                            </div>
+                            <div class="confirm-btn-container">
+                                <button type="button" id="saveBtn" class="confirm-btn">Confirm Booking</button>
+                            </div>
+                        </div>
+
+                        </div>
+                </form>
+            </div>
+            <div class="tab-content" data-step="2" >
+                <form id="form3">
+                    <div id="checkout">
+                        <span class="material-symbols-outlined">
+                            home
+                            </span>
+                        </div>
+                        <div class="container1">
+                            <div class="payment-options">
+                                <h2>Choose Payment Method</h2>
+                                <form>
+                                    <label>
+                                        <input type="radio" name="payment-method" value="upi">
+                                        <img src="{{url_for('static',filename='icons/upi.png')}}" alt="UPI" class="icon1"> UPI
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="payment-method" value="net-banking">
+                                        <img src="{{url_for('static',filename='icons/net-banking.png')}}" alt="Net Banking" class="icon1"> Net Banking
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="payment-method" value="debit-credit-card">
+                                        <img src="{{url_for('static',filename='icons/debit-credit-card.png')}}" alt="Debit/Credit Card" class="icon1"> Debit/Credit Card
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="payment-method" value="wallet">
+                                        <img src="{{url_for('static',filename='icons/wallet.png')}}" alt="Wallet" class="icon1"> Wallet
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="payment-method" value="qr-code">
+                                        <img src="{{url_for('static',filename='icons/qr-code.png')}}" alt="QR Code" class="icon1"> QR Code
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="payment-method" value="cod">
+                                        <img src="https://cdn0.iconfinder.com/data/icons/shopping-app-1/32/cash_on_delivery_COD_payment_payment_method_pay-512.png" alt="QR Code" class="icon1"> COD
+                                    </label>
+                                </form>
+                                
+                            </div>
+                            
+                            <div class="payment-details">
+                                <h2>Payment Details</h2>
+                                <form action="{{url_for("transaction_data",cart_id=cart.cart_id,user_id=cart.user_id)}}" method="post">
+                                    <input type="hidden" name="selected_items" id="selected-items" value="">
+                                    <input type="hidden" name="address_1" id="selected-address" value="">
+                                    <input type="hidden" id="total-hidden" name="total" value="0">
+                                    <input type="hidden" name="c_dmode" id="c-mode" value="">
+                                 
+                                    <div class="upi-details payment-detail">
+                                        <label for="upi-id">UPI ID:</label>
+                                        <input type="text" id="upi-id" name="upi-id">
+                                        <div class="validation-message" id="upi-validation-message">Invalid UPI ID</div>
+                                    </div>
+                    
+                            
+                                   <div class="qr-code-details payment-detail">
+                                    <label for="qr-code">Scan QR Code to Pay:</label>
+                                    <img src="{{url_for('static',filename='icons/qr-code.png')}}" alt="QR Code" style="width:200px; height:200px; display:block; margin:20px auto;">
+                                </div>
+                            
+                                    <div class="net-banking-details payment-detail">
+                                        <label for="bank-name">Bank Name:</label>
+                                        <select id="bank-name" name="bank-name">
+                                      
+                                            <option value="bank-of-baroda">Bank of Baroda</option>
+                                            <option value="bank-of-india">Bank of India</option>
+                                            <option value="bank-of-maharashtra">Bank of Maharashtra</option>
+                                          
+                                            <option value="canara-bank">Canara Bank</option>
+                                            <option value="central-bank-of-india">Central Bank of India</option>
+                                            <option value="indian-bank">Indian Bank</option>
+                                            <option value="indian-overseas-bank">Indian Overseas Bank</option>
+                                            <option value="punjab-and-sind-bank">Punjab and Sind Bank</option>
+                                            <option value="punjab-national-bank">Punjab National Bank</option>
+                                            <option value="state-bank-of-india">State Bank of India</option>
+                                            <option value="uco-bank">UCO Bank</option>
+                                            <option value="union-bank-of-india">Union Bank of India</option>
+                                        
+                                            <option value="axis-bank">Axis Bank</option>
+                                            <option value="bandhan-bank">Bandhan Bank</option>
+                                            <option value="csb-bank">CSB Bank</option>
+                                            <option value="city-union-bank">City Union Bank</option>
+                                            <option value="dcb-bank">DCB Bank</option>
+                                            <option value="dhanlaxmi-bank">Dhanlaxmi Bank</option>
+                                            <option value="federal-bank">Federal Bank</option>
+                                            <option value="hdfc-bank">HDFC Bank</option>
+                                            <option value="icici-bank">ICICI Bank</option>
+                                            <option value="idbi-bank">IDBI Bank</option>
+                                        </select>
+                                    </div>
+                            
+                                    <div class="debit-credit-card-details payment-detail">
+                                        <div class="card-input">
+                                            <img src="{{url_for('static',filename='icons/card-number.png')}}" alt="Card Number Icon">
+                                            <input type="text" id="card-number" name="card-number" placeholder="Card Number">
+                                        </div>
+                                        <div class="card-input">
+                                            <img src="{{url_for('static',filename='icons/expiry-date.png')}}" alt="Expiry Date Icon">
+                                            <input type="month" id="expiry-date" name="expiry-date" placeholder="MM/YY">
+                                        </div>
+                                        <div class="card-input">
+                                            <img src="{{url_for('static',filename='icons/cvv.png')}}" alt="CVV Icon">
+                                            <input type="text" id="cvv" name="cvv" placeholder="CVV">
+                                        </div>
+                                    </div>
+                         
+                                    <div class="wallet-details payment-detail">
+                                        <label for="wallet-type">Wallet Type:</label>
+                                        <select id="wallet-type" name="wallet-type">
+                                         
+                                            <option value="PayTm"> >PayTm</option>
+                                            <option value="Phone-pe">>Phone pe</option>
+                                            <option value="Google">Google pay</option>
+                                            <option value="Mobikpay" >Mobikpay</option>
+                                            <option value="Freecharge">" >Freecharge</option>
+                                            <option value="Amazon" >Amazon</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit">Pay Now</button>
+                                    
+                                </form>
+                            </div>
+                            <div class="campaign-info">
+                                <img src="https://img.freepik.com/free-vector/organic-flat-design-public-relations-concept_23-2148909838.jpg?t=st=1723367580~exp=1723371180~hmac=4e09d4afa9a90cbec87d8e935996c4735e20eea30a4a95fcb9d52e5e11a59696&w=740" alt="campaigns">
+                                <h2>Transaction Id : </h2>
+                                <p>Campaign Id</p>
+                            </div>
+                        </div>
+                </form>
+            </div>
+            <div class="tab-content" data-step="3" >
+                <form id="form4">
+                    <h3>Confirmation</h3>
+                    <p>Review and confirm your order</p>
+                    <button type="button" id="saveBtn">Confirm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Function to update hidden fields
+        function updateTransactionForm() {
+            // Collect selected item IDs from checkboxes
+            let selectedItems = [];
+            document.querySelectorAll('input[name="service[]"]:checked').forEach((checkbox) => {
+                selectedItems.push(checkbox.value);
+            });
+    
+            // Convert selected items to a comma-separated string
+            const selectedItemsString = selectedItems.join(',');
+    
+            // Update hidden field for selected items
+            document.getElementById('selected-items').value = selectedItemsString;
+    
+            // Update the selected address
+            const selectedAddress = document.querySelector('input[name="address"]:checked');
+            if (selectedAddress) {
+                document.getElementById('selected-address').value = selectedAddress.id.replace('address_', '');
+            }
+    
+            // Update the total value from visible field
+            const totalValue = document.getElementById('total-value').textContent;
+            document.getElementById('total-hidden').value = totalValue;
+    
+            // Update payment mode
+            const paymentMode = document.querySelector('input[name="payment-method"]:checked');
+            if (paymentMode) {
+                document.getElementById('c-mode').value = paymentMode.value;
+            }
+        }
+    
+        document.querySelectorAll('input[name="service[]"]').forEach((checkbox) => {
+            checkbox.addEventListener('change', updateTransactionForm);
+        });
+    
+        document.querySelectorAll('input[name="address"]').forEach((radio) => {
+            radio.addEventListener('change', updateTransactionForm);
+        });
+    
+        document.querySelectorAll('input[name="payment-method"]').forEach((radio) => {
+            radio.addEventListener('change', updateTransactionForm);
+        });
+    
+        document.addEventListener('DOMContentLoaded', updateTransactionForm);
+    </script>
+    
+    <script src="{{url_for('static',filename='js/cart.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="{{url_for('static',filename='js/payment.js')}}"></script>
+
+    
+</body>
+</html>

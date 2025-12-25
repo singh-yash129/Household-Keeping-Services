@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <style>
+
+        .tab-container {
+            margin: 30px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f1f1f1;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            background: #f1f1f1;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .tab:hover,
+        .tab.active {
+            background: #6a11cb;
+            color: #fff;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background: #f2f2f2;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-primary {
+            background: #007bff;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div id="logo">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo">
+        </div>
+        <div id="links">
+            <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('admin_list') }}">Info</a>
+            <a href="{{ url_for('payments') }}">Payments</a>
+            <a href="{{ url_for('help_request') }}">Help</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+
+    <div class="tab-container">
+        <div class="tabs">
+            <div class="tab" onclick="showTab('verification')">Professional Verification</div>
+            <div class="tab" onclick="showTab('approval')">Service Approval</div>
+        </div>
+
+        <div class="tab-content" id="verification">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>GST File</th>
+                        <th>UAN File</th>
+                        <th>Business Reg. File</th>
+                        <th>Income Tax File</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user,item in verification_data %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{user.email_id }}</td>
+                        <td><a href="{{ url_for('uploads',filename=item.gst_file) }}" target="_blank">View</a></td>
+                        <td><a href="{{  url_for('uploads',filename=item.uan_file) }}" target="_blank">View</a></td>
+                        <td><a href="{{  url_for('uploads',filename=item.business_reg_file) }}" target="_blank">View</a></td>
+                        <td><a href="{{  url_for('uploads',filename=item.income_tax_file) }}" target="_blank">View</a></td>
+                        <td>
+                            <button class="btn btn-success verify-btn" data-username="{{ item.user_id }}">Verify</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-content" id="approval">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Service Name</th>
+                        <th>Service Description</th>
+                        <th>Category</th>
+                        <th>Pricing</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user,service in service_data %}
+                    <tr>
+                        <td>{{user.username }}</td>
+                        <td>{{ user.email_id }}</td>
+                        <td>{{ service.service_name }}</td>
+                        <td>{{ service.service_description }}</td>
+                        <td>{{ service.service_category }}</td>
+                        <td>{{ service.pricing }}</td>
+                        <td>{{ service.status }}</td>
+                        <td>
+                            <button class="btn btn-primary process-service-btn" data-service-id="{{ service.request_id }}">Process</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Tab management
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('verify-btn')) {
+                const username = e.target.dataset.username;
+                fetch('/verify_user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username })
+                }).then(res => res.json())
+                  .then(data => alert(data.message))
+                  .catch(console.error);
+            } else if (e.target.classList.contains('process-service-btn')) {
+                const serviceId = e.target.dataset.serviceId;
+                fetch('/process_service', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ service_id: serviceId })
+                }).then(res => res.json())
+                  .then(data => alert(data.message))
+                  .catch(console.error);
+            }
+        });
+    </script>
+</body>
+
+</html>

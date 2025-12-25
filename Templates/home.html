@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Household Keeping Services</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    <div class="header">
+        <div id="logo">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="">
+            <h3>Service Bucket</h3>
+        </div>
+        <div id="links">
+            <a href="{{url_for('account')}}"><span class="material-symbols-outlined">account_circle</span>Account</a>
+            <a href="{{url_for('privacy_policy')}}"><span class="material-symbols-outlined">security</span>Privacy Policy</a>
+            <a href="{{url_for('about')}}"><span class="material-symbols-outlined">info</span>About</a>
+            <a href="{{url_for('help')}}"><span class="material-symbols-outlined">contact_support</span>Help</a>
+        </div>
+        <img  id="home" src="{{ url_for('static', filename='assets/home.png') }}" alt="">
+    </div>
+    <h2 style="text-align: center;margin-top: 310px;">HouseHold Keeping Services</h2>
+    <div id="container">
+        <div id="box">
+            <span class="material-symbols-outlined">
+                cleaning_services
+                </span>
+                <p>Imagine coming home to a spotless, perfectly organized space, without lifting a finger. Our expert household services ensure that your home is not only clean but cared for with the utmost attention to detail.</p>
+                <a href="{{url_for('learn')}}">Learn More</a>
+        </div>
+        <div id="box">
+            <span class="material-symbols-outlined">
+                explore
+                </span>
+            <p>From the floors to the ceilings, every nook and cranny of your home deserves special attention. Our dedicated team provides thorough, customized household services that leave your home looking and feeling fresh, organized, and inviting</p>
+            <a href="{{url_for('customer_dashboard_explore')}}">Explore us</a>  
+        </div>
+        <div id="box">
+            <span class="material-symbols-outlined">
+                done_all
+                </span>
+                <p>A clean home is the foundation of a happy life, but keeping it that way doesn’t have to be hard work. With our professional household services, you can enjoy a pristine living space while we take care of all the cleaning and upkeep for you.</p>
+             <a href="{{url_for('book_now')}}">Book now</a>
+        </div>
+    </div>    
+</body>
+</html>

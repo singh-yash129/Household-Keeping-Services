@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Request Solution</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+
+    <style>
+        #body1 {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .action-button {
+            background-color: #007BFF;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-button:hover {
+            background-color: #0056b3;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            width: 800px;
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .popup form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .popup label {
+            margin-bottom: 10px;
+        }
+
+        .popup textarea {
+            padding: 10px;
+            resize: none;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+
+        .popup .close-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-right: 10px;
+            align-self: flex-end;
+        }
+
+        .popup .submit-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div id="logo">
+            <img src="{{url_for('static',filename='assets/logo.png')}}" alt="IEAS Logo">
+        </div>
+        <h2>Admin's Dashboard</h2>
+        <div id="links">
+            <a href="{{url_for('admin_list')}}">Info</a>
+            <a href="{{url_for('payments')}}">Payments</a>
+            <a href="{{ url_for('verify_professioanal') }}">Verification</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+<div id="body1">
+    <h1>Help Requests</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Problem</th>
+                <th>Subject</th>
+                <th>Status</th>
+                <th>Issue ID</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        {%for request in helps%}
+        <tbody id="help-requests">
+             <td>{{request.help_date}}</td>
+            <td>{{request.email_id}}</td>
+            <td>{{request.Name}}</td>
+            <td>{{request.problem}}</td>
+            <td>{{request.subject}}</td>
+            <td>{{request.status}}</td>
+            <td>{{request.issue_id}}</td>
+            <td><button class="action-button" onclick="openPopup('{{request.issue_id}}')">Resolve</button></td>  
+              
+        </tbody>
+        {%endfor%}    
+    </table>
+
+
+    <div class="popup-overlay" id="popup-overlay"></div>
+    <div class="popup" id="popup">
+        <form id="solution-form">
+            <span class="close-button" onclick="closePopup()">&times;</span>
+            <label for="solution">Provide Solution:</label>
+            <textarea id="solution" name="solution" required></textarea>
+            <input type="hidden" id="issue-id" name="issue_id">
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+</div>
+
+    <script>
+    
+        
+        function openPopup(issueId) {
+            document.getElementById('issue-id').value = issueId;
+            document.getElementById('popup-overlay').style.display = 'block';
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popup-overlay').style.display = 'none';
+            document.getElementById('popup').style.display = 'none';
+        }
+
+        document.getElementById('solution-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const issueId = document.getElementById('issue-id').value;
+            const solution = document.getElementById('solution').value;
+
+            
+            fetch('/api/help/solve', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ issue_id: issueId, solution: solution })
+            })
+        })
+    </script>
+</body>
+</html>

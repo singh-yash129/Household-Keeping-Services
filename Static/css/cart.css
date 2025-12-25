@@ -1,0 +1,375 @@
+.container{
+    padding: 40px;
+  
+}
+
+#back .material-symbols-outlined{
+    padding: 10px;
+    background-color: rgba(92, 188, 235, 0.777);
+    border-radius: 50%;
+    box-shadow: 0 4px 50px rgb(7, 126, 218);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;  
+    cursor: pointer;  
+    
+}
+
+
+#sys{
+   margin-right: 400px;
+   display: flex;
+   align-items: center;
+   flex-direction: column;
+   gap: 10px;
+}
+#sys1,#sys2{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 200px;
+}
+#back .material-symbols-outlined:hover{
+    transform: translateY(-10px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+#checkout .material-symbols-outlined{
+    padding: 50px;
+    margin-left: 35px;
+    font-size: 150px;
+    font-weight: lighter;
+    background-color: rgba(92, 235, 116, 0.777);
+    border-radius: 10% 10% 50% 5%;
+    box-shadow: 10px 20px rgba(26, 177, 3, 0.627);
+}
+
+
+.tab {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.icon {
+    font-size: 28px;
+    cursor: pointer;
+    color: #070707;
+    transition: color 0.3s ease;
+}
+
+#sys .material-symbols-outlined{
+    font-size: 28px;
+}
+.icon.active {
+    color: #1289e4;
+    
+}
+
+
+#sys2 {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+}
+
+.step{
+    color: red;
+}
+.step.active {
+    color: #4CAF50;
+    text-shadow: 0 0 3px #1cea0a, 0 0 5px #0cd31d;
+}
+
+.line {
+    width: 200px;
+    height: 3px;
+    background-color: #d3d3d3;
+}
+
+.line.active {
+    background-color: #4CAF50;
+    text-shadow: 3px 1px  #1cea0a, 0 0 15px #0cd31d;
+}
+
+
+.form-section {
+    margin-top: 20px;
+}
+
+.tab-content {
+    display: none;
+    
+}
+.checkout-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.checkout-header h2 {
+    margin-left: 10px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+#form1,#form2,#form3{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+.cart-box {
+margin-top: 10px;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0px;
+    table-layout: fixed; 
+    
+}
+
+.cart-table th, .cart-table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.cart-table th {
+    background-color: #f1f1f1;
+    font-size: 1em;
+    color: #555;
+}
+
+.cart-table tr:hover {
+    background-color: #f9f9f9;
+}
+.cart-table tbody {
+    display: block;
+    max-height: 450px;
+    overflow-y:auto;
+    width: 100%;
+}
+.delete-icon {
+    color: #f44336;
+    font-size: 24px;
+}
+.cart-table thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    
+}
+
+.cart-table tbody tr {
+    display: table; 
+    width: 100%;
+    table-layout: fixed;
+}
+.delete-icon:hover {
+    color: #e57373;
+    cursor: pointer;
+}
+
+
+.fixed-footer {
+    background-color: #fff;
+    border-top: 1px solid #e0e0e0;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    position: fixed;
+    bottom: 0;
+    width: 71%;
+    border-radius: 20px;
+   
+}
+
+.add-btn{
+    text-align: left;
+}
+
+.confirm-btn-container {
+    text-align: right;
+}
+
+.confirm-btn,.addNew {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.confirm-btn:hover,.addNew:hover {
+    background-color: #45a049;
+}
+
+.confirm-btn:active,.addNew:active {
+    transform: scale(0.98);
+    background-color: #388E3C;
+}
+.tab-content.active {
+    display: block;
+}
+
+input, button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #388E3C;
+}
+
+
+.container1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    max-width: 1300px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.payment-options, .payment-details, .campaign-info {
+    width: 30%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.payment-options h2, .payment-details h2, .campaign-info h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.payment-options form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.payment-details form .payment-detail {
+    display: none;
+    margin-bottom: 20px;
+}
+
+.payment-details form .payment-detail input,
+.payment-details form .payment-detail select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+.payment-details form .payment-detail label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.payment-details form button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.payment-details form button:hover {
+    background-color: #0056b3;
+}
+
+.campaign-info img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.campaign-info p {
+    font-size: 1.2em;
+    color: #555;
+}
+
+input[name="payment-method"]:checked + .payment-detail {
+    display: block;
+}
+
+
+
+.card-input {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+.card-input img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+#form3 form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+#form3 form button:hover {
+    background-color: #45a049;
+}
+.campaign-info img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ccc;
+}
+.campaign-info h2, .campaign-info p {
+    margin: 10px 0;
+}
+.icon1 {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.valid {
+    border-color: #4CAF50;
+}
+.invalid {
+    border-color: #f44336;
+}
+.validation-message {
+    text-align: left;
+    margin-top: 1px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #f44336;
+    display: none;
+}
+

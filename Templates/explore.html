@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/header.css')}}">
+
+    <link rel="stylesheet"  href="https:/fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="{{url_for('static',filename='css/dash.css')}}">
+</head>
+
+<body>
+
+
+    <div class="header">
+        <div id="logo">
+            <img src="{{url_for('static',filename='assets/logo.png')}}" alt="">
+            <h3>Service Bucket</h3>
+        </div>
+        <div id="location">
+            <span class="material-symbols-outlined" style="color: orange;">
+                home_pin
+            </span>
+            <input type="search" id="search" placeholder="Enter your location or Zip code">
+            <span class="material-symbols-outlined mic">mic</span>
+            <span class="material-symbols-outlined loc">my_location</span>
+        </div>
+        <div id="links">
+            <a href="{{ url_for('home_page')}}"><span
+                    class="material-symbols-outlined">home</span>Home</a>
+            <a
+                href="{{ url_for('login')}}"><span
+                    class="material-symbols-outlined">
+                    login
+                </span>Login</a>
+            <a  href="{{url_for('registration',data='professional')}}"><span class="material-symbols-outlined">
+                    app_registration
+                </span>Sign-up</a>
+            <a href="{{url_for('help')}}"><span style="font-size: 30px;"
+                    class="material-symbols-outlined">contact_support</span>Help</a>
+
+        </div>
+    </div>
+    <div id="map"></div>
+
+    <div class="services-range">
+        <h2> Find Services near your area and save time </h2>
+        <div id="ranges">
+            <div id="range" >
+                <h4>5 Km</h4>
+            </div>
+            <div id="range" >
+                <h4>10 Km</h4>
+            </div>
+            <div id="range">
+                <h4>15 Km</h4>
+            </div>
+        </div>
+    </div>
+
+    <div id="category">
+        <div style="display: flex;align-items: center; justify-content: space-between;">
+            <h2>What's in your Mind</h2>
+            <div style="display: flex;justify-content: end;align-items: center;">
+                <span class="material-symbols-outlined" id="backward">
+                    arrow_back
+                </span>
+                <span class="material-symbols-outlined" id="forward">
+                    arrow_forward
+                </span>
+            </div>
+        </div>
+
+        <div id="container">
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Cleaning Services">
+                <h3>Cleaning Services</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/plumbing.png') }}" alt="Plumbing Services">
+                <h3>Plumbing Services</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/electrical.png') }}" alt="Electrical Services">
+                <h3>Electrical Services</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/gardening.png') }}" alt="Lawn and Garden Care">
+                <h3>Lawn and Garden Care</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/painting.jpg') }}" alt="Painting Services">
+                <h3>Painting Services</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/carpet_cleaning.jpg') }}" alt="Carpet Cleaning">
+                <h3>Carpet Cleaning</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/window_cleaning.jpeg') }}" alt="Window Cleaning">
+                <h3>Window Cleaning</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/pest_control.png') }}" alt="Pest Control">
+                <h3>Pest Control</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/appliance_repair.png') }}" alt="Appliance Repair">
+                <h3>Appliance Repair</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/pool_maintainace.png') }}" alt="Pool Maintenance">
+                <h3>Pool Maintenance</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/smart_home_installation.jpg') }}"
+                    alt="Smart Home Installation">
+                <h3>Smart Home Installation</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/home_security.webp') }}"
+                    alt="Home Security Installation">
+                <h3>Home Security Installation</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/hvac.jpeg') }}" alt="HVAC Maintenance">
+                <h3>HVAC Maintenance</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/moving_services.jpeg') }}" alt="Moving Services">
+                <h3>Moving Services</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/waste_removal.jpg') }}" alt="Waste Removal">
+                <h3>Waste Removal</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/handyman_services.jpeg') }}" alt="Handyman Services">
+                <h3>Handyman Services</h3>
+            </div>
+
+            <div class="box">               
+                <img src="{{ url_for('static', filename='assets/furniture_assembly.jpeg') }}" alt="Furniture Assembly">
+                <h3>Furniture Assembly</h3>
+            </div>
+
+            <div class="box">
+                <img src="{{ url_for('static', filename='assets/interior_design.jpeg') }}" alt="Interior Design">
+                <h3>Interior Design</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/chimney_sweep.jpg') }}" alt="Chimney Sweep">
+                <h3>Chimney Sweep</h3>
+            </div>
+
+            <div class="box" >
+                <img src="{{ url_for('static', filename='assets/tree_removal.png') }}" alt="Tree Trimming and Removal">
+                <h3>Tree Trimming and Removal</h3>
+            </div>
+
+
+        </div>
+    </div>
+ 
+    <hr>
+    <h2 style="padding: 10px;">Make work easier with us !!</h2>
+    <div class="providers">
+        {% for each in service %}
+
+        <div id="provider">
+            <img src="{{url_for('uploads',filename=each.brand_logo)}}" alt="">
+            <h3>Services Bucket</h3>
+            <div class="rate">
+                <span class="material-symbols-outlined">
+                    star
+                </span><span class="material-symbols-outlined" style="color: gold;">
+                    star
+                </span><span class="material-symbols-outlined">
+                    star
+                </span><span class="material-symbols-outlined">
+                    star
+                </span><span class="material-symbols-outlined">
+                    star
+                </span>
+            </div>
+        </div>
+        {%endfor%}
+
+    </div>
+
+
+    </div>
+    </div>
+    <script src="{{url_for('static',filename='js/map.js')}}"></script>
+    <script src="https:/maps.googleapis.com/maps/api/js?key={{google_map_api_key}}&libraries=places"></script>
+    <script src="{{url_for('static',filename='js/script.js')}}"></script>
+    <script src="{{url_for('static',filename='js/mic.js')}}"></script>
+    <script src="{{url_for('static',filename='js/index.js')}}"></script>
+</body>
+
+</html>

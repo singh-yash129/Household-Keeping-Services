@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | HouseHold Services</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/header.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/login.css')}}">
+    <link rel="stylesheet" href="https:/fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
+    <script>
+    function toggleSlider() {
+        var sliderButton = document.getElementById('slider-button');
+        if (sliderButton.classList.contains('left')) {
+            sliderButton.classList.remove('left');
+            sliderButton.classList.add('right');
+        } else {
+            sliderButton.classList.remove('right');
+            sliderButton.classList.add('left');
+        }
+    }
+
+    function toggleUserAdmin() {
+        var userAdminSliderButton = document.getElementById('user-admin-slider-button');
+        var registrationButtons = document.getElementById('system');
+        if (userAdminSliderButton.classList.contains('left')) {
+            userAdminSliderButton.classList.remove('left');
+            userAdminSliderButton.classList.add('right');
+            registrationButtons.style.display = 'none';
+        } else {
+            userAdminSliderButton.classList.remove('right');
+            userAdminSliderButton.classList.add('left');
+            registrationButtons.style.display = '';
+        }
+    }
+
+    function getSliderValue() {
+        var sliderButton = document.getElementById('slider-button');
+        return sliderButton.classList.contains('left') ? 'customer' : 'professional';
+    }
+
+    function getUserAdminValue() {
+        var userAdminSliderButton = document.getElementById('user-admin-slider-button');
+        return userAdminSliderButton.classList.contains('left') ? 'user' : 'admin';
+    }
+
+    function updateHiddenFields() {
+        document.getElementById('slider-value1').value = getSliderValue();
+        document.getElementById('user-admin-value1').value = getUserAdminValue();
+    }
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = document.querySelectorAll('#input input');
+            const twoFactorEnabled = document.getElementById('two-factor-enabled').value === 'True';
+
+            inputs.forEach((input, index) => {
+                input.addEventListener('input', () => {
+                    if (input.value.length === 1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                });
+
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && input.value.length === 0 && index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                });
+            });
+
+            if (twoFactorEnabled) {
+                document.getElementById('verify_2fa').style.display = 'block';
+            }
+        });
+
+        function submitFormWith2FA() {
+            updateHiddenFields();
+            document.getElementById('login-form').submit();
+        }
+    </script>
+    <style>
+ 
+        .user-admin-slider-container {
+            margin-top: 0px;
+        }
+        .user-admin-slider {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100px;
+            height: 30px;
+            background-color: #ddd;
+            border-radius: 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .user-admin-slider-label {
+            flex: 1;
+            text-align: center;
+            line-height: 30px;
+            font-size: 12px;
+        }
+        .user-admin-slider-button {
+            width: 50%;
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 15px;
+            position: absolute;
+            transition: 0.3s;
+            opacity: 50%;
+            font: bold;
+        }
+        .user-admin-slider-button.left {
+            left: 0;
+        }
+        .user-admin-slider-button.right {
+            left: 50%;
+        }
+
+
+        #verify_2fa {       
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f0f8ff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
+            position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  z-index: 40000;
+        }
+
+        #verify_2fa h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        #verify_2fa p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        #input {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        #input input {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            border-bottom: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 0 5px;
+            transition: border-color 0.3s;
+        }
+
+        #input input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        #verify_2fa button[type="submit"] {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #verify_2fa button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        #links a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.notification.success {
+    background-color: #4CAF50;
+    color: white;
+    opacity: 1;
+}
+
+.notification.error {
+    background-color: #F44336;
+    color: white;
+    opacity: 1;
+}
+    </style>
+</head>
+<body>
+    <div id="verify_2fa">
+        <h4 style="text-align: center;"><b>Two-step Authentication</b></h4>
+        <p  style="text-align: center;"><strong>Enter 6-Digit passcode to authenticate yourself</strong></p>
+        <form id="2fa-form" action="{{ url_for('login') }}" method="post">
+            <div id="input" style="margin-left: 24px;">
+                <input type="tel" name="inp-1" id="inp-1" placeholder="." maxlength="1">
+                <input type="tel" name="inp-2" id="inp-2" placeholder="." maxlength="1">
+                <input type="tel" name="inp-3" id="inp-3" placeholder="." maxlength="1">
+                <input type="tel" name="inp-4" id="inp-4" placeholder="." maxlength="1">
+                <input type="tel" name="inp-5" id="inp-5" placeholder="." maxlength="1">
+                <input type="tel" name="inp-6" id="inp-6" placeholder="." maxlength="1">
+            </div>
+            <input type="hidden" name="uname" id="uname" value="{{ request.form.get('uname', '') }}">
+            <input type="hidden" name="psw" id="psw" value="{{ request.form.get('psw', '') }}">
+            <input type="hidden" name="slider_value" id="slider-value" value="{{ request.form.get('slider_value', '') }}">
+            <input type="hidden" name="user_admin_value" id="user-admin-value" value="{{ request.form.get('user_admin_value', '') }}">
+            <button type="submit" style="margin-left: 149px;" >Continue</button>
+        </form>
+        <p style="font-size: 11px;">Forgot Authentication code : <strong><a style="text-decoration: none;" href="{{url_for('help')}}">Contact Admin</a></strong></p>
+    </div>
+    <img id="default" src="{{url_for('static',filename='assets/logo.png')}}" alt="">
+    <div class="header">
+        <div id="logo">
+            <img src="{{url_for('static',filename='assets/logo.png')}}" alt="">
+            <h3>Service Bucket</h3>
+        </div>
+        <div id="links">
+            <a href="{{url_for('account')}}"><span class="material-symbols-outlined">account_circle</span>Account</a>
+            <a href="{{url_for('privacy_policy')}}"><span class="material-symbols-outlined">security</span>Privacy Policy</a>
+            <a href="{{url_for('about')}}"><span class="material-symbols-outlined">info</span>About</a>
+            <a href="{{url_for('help')}}"><span class="material-symbols-outlined">contact_support</span>Help</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="user-admin-slider-container">
+            <div class="user-admin-slider" onclick="toggleUserAdmin()">
+                <div class="user-admin-slider-label left">User</div>
+                <div class="user-admin-slider-label right">Admin</div>
+                <div id="user-admin-slider-button" class="user-admin-slider-button left"></div>
+            </div>
+        </div>
+        <br>
+        <form id="login-form" action="{{ url_for('login') }}" method="post" onsubmit='return updateHiddenFields()'>
+            <label for="uname"><b>Username or E-mail</b></label>
+            <input type="text" placeholder="Enter Username" name="uname" required>
+        
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+            
+            <label>
+                <input type="checkbox" checked="checked" name="remember"> Remember me
+            </label>
+            <label for="terms">
+                <input type="checkbox" checked="checked" id="terms" required name="Terms and conditions"> I agree to <a href="{{url_for('privacy_policy')}}">Terms and conditions</a>
+            </label>
+            <input type="hidden" id="slider-value1" name="slider_value" value="">
+            <input type="hidden" id="user-admin-value1" name="user_admin_value" value="">
+            <input type="hidden" id="two-factor-enabled" name="two_factor_authentication" value="{{ user.two_factor_authentication }}">
+
+            <button type="submit" onclick="submitFormWith2FA()">Login</button>
+            
+            
+        </form>
+        <div>
+            <div id="system">
+                <span class="psw">Forgot <a href="/forgot">password?</a></span>
+                <div class="slider-container">
+                    <div class="slider" onclick="toggleSlider()">
+                        <div class="slider-label left">Customer</div>
+                        <div class="slider-label right">Service professionals</div>
+                        <div id="slider-button" class="slider-button left"></div>
+                    </div>
+                </div>
+                <h5 style="text-align: center;">No Account Exists? Create New One <span id="spn"><a  href="{{url_for('registration',data='professional')}}"><b>Sign-up</b></a></span></h5>
+            </div>
+
+        </div>
+    </div>
+    
+
+</body>
+</html>

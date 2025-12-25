@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/header.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    <link rel="stylesheet"  href="https:/fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="{{url_for('static',filename='css/dash.css')}}">
+</head>
+
+<body>
+    <script>
+function myVerify() {
+    var x = document.getElementById("two_step_verification");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+document.addEventListener("DOMContentLoaded", function() {
+    var closeIcon = document.querySelector(".cls6");
+    closeIcon.addEventListener("click", function() {
+        document.getElementById("two_step_verification").style.display = "none";
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+            function setupInputFocus(containerSelector) {
+                const inputs = document.querySelectorAll(`${containerSelector} input`);
+                inputs.forEach((input, index) => {
+                    input.addEventListener('input', function() {
+                        if (this.value.length === this.maxLength) {
+                            const nextInput = inputs[index + 1];
+                            if (nextInput) {
+                                nextInput.focus();
+                            }
+                        }
+                    });
+                });
+            }
+
+            setupInputFocus('#inp');
+            setupInputFocus('#inp2');
+            setupInputFocus('#inp_disable');
+
+            const checkbox = document.querySelector('#verify-checkbox');
+            const verifyInput = document.querySelector('#verify-input');
+            const enableDiv = document.querySelector('#enable');
+            const disableDiv = document.querySelector('#disable');
+
+            function toggleInputSections() {
+                if (checkbox.checked) {
+                    enableDiv.style.display = '{{ inf.passcode == 0 }}' === 'True' ? 'block' : 'none';
+                    disableDiv.style.display = 'none';
+                } else {
+                    enableDiv.style.display = 'none';
+                    disableDiv.style.display = '{{ inf.passcode != 0 }}' === 'True' ? 'block' : 'none';
+                }
+            }
+
+            toggleInputSections();
+
+            checkbox.addEventListener('change', function() {
+                verifyInput.value = checkbox.checked ? 'True' : 'False';
+                toggleInputSections();
+            });
+
+
+
+        });
+    </script>
+    <div class="form-popup_1" id="deactivateForm">
+        <form action="{{ url_for('customer_dashboard', user=inf.username)  }}" class="form-container_1">
+            <h2>Are you sure you want to deactivate your account?</h2>
+            <div class="button-container_1"> <button type="submit" class="btn" name="deactivate" value="deactivate">Yes</button> <button type="button"
+                    class="btn cancel" onclick="closeDeactivateForm()">No</button> </div>
+        </form>
+    </div>
+    <div class="form-popup" id="updateProfileForm">
+        <form action="{{ url_for('submit_profile_update', user=inf.username) }}" class="form-container">
+            <h2 class="form-title">Update Profile</h2>
+    
+            <!-- Personal Information -->
+            <div id="noc">
+                <div class="form-group">
+                    <label for="firstName"><b>First Name <span class="required">*</span></b></label>
+                    <input type="text" id="firstName" placeholder="Enter your first name" name="firstName" value="{{ data.first_name if data.first_name else '' }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName"><b>Last Name <span class="required">*</span></b></label>
+                    <input type="text" id="lastName" placeholder="Enter your last name" name="lastName" value="{{ data.last_name if data.last_name else '' }}" required>
+                </div>
+            </div>
+            <div id="noc">
+                <div class="form-group">
+                    <label for="mobileNumber"><b>Mobile Number <span class="required">*</span></b></label>
+                    <input type="tel" id="mobileNumber" placeholder="Enter your mobile number" name="mobileNumber" value="{{ data.mobile_number if data.mobile_number else '' }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="alternateNumber"><b>Alternate Number</b></label>
+                    <input type="tel" id="alternateNumber" placeholder="Enter alternate number" name="alternateNumber" value="{{ data.alternate_number if data.alternate_number else '' }}">
+                </div>
+            </div>
+            <!-- Address Information -->
+            <h3 class="section-title">Address Details</h3>
+            <div class="form-group">
+                <label for="streetAddress"><b>Street Address <span class="required">*</span></b></label>
+                <textarea id="streetAddress" placeholder="Enter your street address" name="streetAddress" required rows="10" cols="60">{{ data.street_address if data.street_address else '' }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="city"><b>City <span class="required">*</span></b></label>
+                <input type="text" id="city" placeholder="Enter your city" name="city" value="{{ data.city if data.city else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="state"><b>State <span class="required">*</span></b></label>
+                <input type="text" id="state" placeholder="Enter your state" name="state" value="{{ data.state if data.state else '' }}" required>
+            </div>
+            <div id="noc">
+                <div class="form-group">
+                    <label for="country"><b>Country <span class="required">*</span></b></label>
+                    <input type="text" id="country" placeholder="Enter your country" name="country" value="{{ data.country if data.country else '' }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="pincode"><b>Pincode <span class="required">*</span></b></label>
+                    <input type="text" id="pincode" placeholder="Enter your pincode" name="pincode" value="{{ data.pincode if data.pincode else '' }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="landmarks"><b>Landmarks</b></label>
+                    <input type="text" id="landmarks" placeholder="Enter nearby landmarks" name="landmarks" value="{{ data.landmarks if data.landmarks else '' }}">
+                </div>
+            </div>
+    
+            <!-- Action Buttons -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-submit">Submit</button>
+                <button type="button" class="btn btn-cancel" onclick="closeForm()">Cancel</button>
+            </div>
+        </form>
+    </div>
+    
+    <div id="set" style="display: none;">
+        <span class="cls2" style="float: right;">&times;</span>
+        <br><br>
+        <div id="alg" onclick="myVerify()">
+            <span class="material-symbols-outlined">key</span>
+            <h4>Two-Factor-Authentication</h4>
+        </div>
+        <div id="alg" onclick="myChange()">
+            <span class="material-symbols-outlined">
+                password
+            </span>
+            <h4>Change Password</h4>
+        </div>
+        <div id="alg" onclick="openForm()">
+            <span class="material-symbols-outlined">
+                account_circle
+            </span>
+            <h4>Account</h4>
+        </div>
+        <div id="alg" onclick="myMode()">
+            <span class="material-symbols-outlined" id="mode">
+                dark_mode
+            </span>
+            <h4 id="dot">Dark Mode</h4>
+        </div>
+        <div id="alg" onclick="myDelete()">
+            <span class="material-symbols-outlined">delete</span>
+            <h4>Delete Account</h4>
+        </div>
+        <div id="alg" onclick="openDeactivateForm()">
+            <span class="material-symbols-outlined">switches</span>
+            <h4>Deactivate Account</h4>
+        </div>
+        <div>
+            <div id="alg1">
+                <div id="hs2">
+                    <span class="material-symbols-outlined">visibility</span>
+                    <h4>Visibility</h4>
+                </div>
+                <form id="visibility-form"
+                    action="{{ url_for('customer_dashboard', user=inf.username) }}"
+                    method="post" style="all: unset;">
+                    <input type="hidden" name="visibility" id="visibility-input"
+                        value="{{ 'on' if inf.visibility else 'off' }}">
+                    <label class="switch">
+                        <input type="checkbox" id="visibility-checkbox" {% if inf.visibility=='on' %}checked{%
+                            endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </form>
+            </div>
+
+        </div>
+        <div id="alg" onclick="window.location.href='{{ url_for('logout') }}'">
+    
+                      <span class="material-symbols-outlined">logout</span>
+            <h4>Logout</h4>
+        </div>
+
+
+    </div>
+    <div id="two_step_verification" style="display: none;">
+        <span class="cls6" style="float: right;" id="closeModalButton">&times;</span><br>
+        <div id="fields">
+            <form id="verify-form" action="{{ url_for('customer_dashboard', user=inf.username) }}" method="post">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <span class="material-symbols-outlined">key</span>
+                        <h4>Two-Factor Authentication</h4>
+                    </div>
+                    <input type="hidden" name="verify" id="verify-input" value="{{ 'True' if inf.two_factor_authentication else 'False' }}">
+                    <label class="switch">
+                        <input type="checkbox" id="verify-checkbox" {% if inf.two_factor_authentication =='True' %}checked{% endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div id="enable" style="display: none;">
+                    <div id="ena">
+                        <p><strong>Enter 6-digit passcode to set up:</strong></p>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="Set">Setup passcode</label>
+                            <div id="inp">
+                                {% for i in range(1, 7) %}
+                                <input type="text" name="inp_{{ i }}" id="inp_{{ i }}" maxlength="1" placeholder=".">
+                                {% endfor %}
+                            </div><br>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="set">Confirm passcode </label>
+                                <div id="inp2">
+                                    {% for i in range(7, 13) %}
+                                    <input type="text" name="inp_{{ i }}" id="inp_{{ i }}" maxlength="1" placeholder=".">
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <button type="submit" name="setup" value="setup">Continue and Setup</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="disable" style="display: none;">
+                    <div id="dis">
+                        <p><strong>Enter 6-digit old passcode to disable:</strong></p>
+                        <div id="inp_disable">
+                            {% for i in range(13, 19) %}
+                            <input type="text" name="inp_{{ i }}" id="inp_{{ i }}" maxlength="1" placeholder=".">
+                            {% endfor %}
+                        </div>
+                        <button type="submit" name="disable" value="disable">Disable Now</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+                <div id="disable" style="display: none;">
+                    <div id="dis">
+                        <p><strong>Enter 6-digit old passcode to disable:</strong></p>
+                        <div id="inp_disable">
+                            {% for i in range(13, 19) %}
+                            <input type="text" name="inp_{{ i }}" id="inp_{{ i }}" maxlength="1" placeholder=".">
+                            {% endfor %}
+                        </div>
+                        <button type="submit" name="disable" value="disable">Disable Now</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="delete" style="display: none;">
+        <span class="cls4">&times;</span>
+        <br>
+        <form
+            action="{{ url_for('delete_account', user=inf.username) }}"
+            method="POST">
+            <label for="account_delete">Are you sure that you want to delete you account ? If YES then <br>Enter your
+                Email</label>
+            <input type="email" name="email" id="email" required>
+            <button type="submit">Delete Account</button>
+        </form>
+    </div>
+    <div id="change_password" style="display: none;">
+        <div id="cp">
+            <span class="cls3">&times;</span>
+            <h4>Change-Password</h4>
+
+            <form action="{{ url_for('change_password', user=inf.username)  }}" method="post">
+                <label for="old-password"> Old Password :</label>
+                <input type="password" name="old_pass" id="old_pass" required>
+                <label for="new_password"> New Password :</label>
+                <input type="password" name="new_pass" id="new pass" required>
+                <label for="Confirm password">Confirm Password :</label>
+                <input type="password" name="cnf_pass" id="cnf_pass" required>
+                <button type="submit" id="change_password ">Change Password</button>
+            </form>
+        </div>
+    </div>
+    <div id="myNoti" style="display: none;">
+        <span class="cls" style="float: right;">&times;</span>
+        <p><Strong>
+                <h5>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nesciunt nostrum laboriosam quos a. Quam
+                    neque nam fuga, non, error dolore magni dolorem optio, quaerat iure unde rerum at? Sit, error?</h5>
+            </Strong></p>
+        <hr>
+        <p><strong>
+                <h5>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio, hic. Tempore rerum, ab unde,
+                    doloribus recusandae debitis sit odit, fugit sed numquam error et libero delectus asperiores!
+                    Exercitationem, hic id.</h5>
+            </strong></p>
+        <hr>
+    </div>
+
+
+    <div class="header">
+        <div id="logo">
+            <img src="{{url_for('static',filename='assets/logo.png')}}" alt="">
+            <h3>Service Bucket</h3>
+        </div>
+        <div id="location">
+            <span class="material-symbols-outlined" style="color: orange;">
+                home_pin
+            </span>
+            <input type="search" id="search" placeholder="Enter your location or Zip code">
+            <span class="material-symbols-outlined mic">mic</span>
+            <span class="material-symbols-outlined loc">my_location</span>
+        </div>
+        <div id="links">
+            <a href="{{url_for('cart',username=inf.username)}}"><span
+                    class="material-symbols-outlined">shopping_cart</span>Cart</a>
+            <a
+                href="{{url_for('order_tracking',username=inf.username) }}"><span
+                    class="material-symbols-outlined">
+                    deployed_code
+                </span>Order Tracking</a>
+            <a onclick="toggleNotifications()"><span class="material-symbols-outlined">
+                    notifications
+                </span>Notifications</a>
+            <a onclick="mySettings()"><span style="font-size: 30px;"
+                    class="material-symbols-outlined">account_circle</span>Profile</a>
+
+        </div>
+    </div>
+    <div id="map"></div>
+
+    <div class="services-range">
+        <h2> Find Services near your area and save time </h2>
+        <div id="ranges">
+            <div id="range" onclick="withIn5km()">
+                <h4>5 Km</h4>
+            </div>
+            <div id="range" onclick="withIn10km()">
+                <h4>10 Km</h4>
+            </div>
+            <div id="range" onclick="withIn15km()">
+                <h4>15 Km</h4>
+            </div>
+        </div>
+    </div>
+
+    <div id="category">
+        <div style="display: flex;align-items: center; justify-content: space-between;">
+            <h2>What's in your Mind</h2>
+            <div style="display: flex;justify-content: end;align-items: center;">
+                <span class="material-symbols-outlined" id="backward">
+                    arrow_back
+                </span>
+                <span class="material-symbols-outlined" id="forward">
+                    arrow_forward
+                </span>
+            </div>
+        </div>
+
+        <div id="container">
+
+            <div class="box" onclick="window.location.href='{{ url_for('list_filter', data_filter='cleaning') }}'">
+                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Cleaning Services">
+                <h3>Cleaning Services</h3>
+            </div>
+
+            <div class="box" onclick="window.location.href='{{ url_for('list_filter', data_filter='plumbing') }}'">
+                <img src="{{ url_for('static', filename='assets/plumbing.png') }}" alt="Plumbing Services">
+                <h3>Plumbing Services</h3>
+            </div>
+
+            <div class="box" onclick="window.location.href='{{ url_for('list_filter', data_filter='electrical') }}'">
+                <img src="{{ url_for('static', filename='assets/electrical.png') }}" alt="Electrical Services">
+                <h3>Electrical Services</h3>
+            </div>
+
+            <div class="box" onclick="window.location.href='{{ url_for('list_filter', data_filter='gardening') }}'">
+                <img src="{{ url_for('static', filename='assets/gardening.png') }}" alt="Lawn and Garden Care">
+                <h3>Lawn and Garden Care</h3>
+            </div>
+
+            <div class="box" onclick="window.location.href='{{ url_for('list_filter', data_filter='painting') }}'">
+                <img src="{{ url_for('static', filename='assets/painting.jpg') }}" alt="Painting Services">
+                <h3>Painting Services</h3>
+            </div>
+
+            <div class="box"
+                onclick="window.location.href='{{ url_for('list_filter', data_filter='carpet_cleaning') }}'">
+                <img src="{{ url_for('static', filename='assets/carpet_cleaning.jpg') }}" alt="Carpet Cleaning">
+                <h3>Carpet Cleaning</h3>
+            </div>
+
+            <div class="box"
+                onclick="window.location.href='{{ url_for('list_filter', data_filter='window_cleaning') }}'">
+                <img src="{{ url_for('static', filename='assets/window_cleaning.jpeg') }}" alt="Window Cleaning">
+                <h3>Window Cleaning</h3>
+            </div>
+
+            <div class="box" onclick="window.location.href='{{ url_for('list_filter', data_filter='pest_control') }}'">
+                <img src="{{ url_for('static', filename='assets/pest_control.png') }}" alt="Pest Control">
+                <h3>Pest Control</h3>
+            </div>
+
+            <div class="box"
+                onclick="window.location.href='{{ url_for('list_filter', data_filter='appliance_repair') }}'">
+                <img src="{{ url_for('static', filename='assets/appliance_repair.png') }}" alt="Appliance Repair">
+                <h3>Appliance Repair</h3>
+            </div>
+
+            <div class="box"
+                onclick="window.location.href='{{ url_for('list_filter', data_filter='pool_maintenance') }}'">
+                <img src="{{ url_for('static', filename='assets/pool_maintainace.png') }}" alt="Pool Maintenance">
+                <h3>Pool Maintenance</h3>
+            </div>
+
+            <div class="box"
+                onclick="window.location.href='{{ url_for('list_filter', data_filter='smart_home_installation') }}'">
+                <img src="{{ url_for('static', filename='assets/smart_home_installation.jpg') }}"
+                    alt="Smart Home Installation">
+                <h3>Smart Home Installation</h3>
+            </div>
+
+            <div class="box" onclick="window.location.href='{{ url_for('list_filter', data_filter='home_security') }}'">
+                <img src="{{ url_for('static', filename='assets/home_security.webp') }}"
+                    alt="Home Security Installation">
+                <h3>Home Security Installation</h3>
+            </div>
+
+            <div class="box" onclick="window.location.href='{{ url_for('list_filter', data_filter='hvac') }}'">
+                <img src="{{ url_for('static', filename='assets/hvac.jpeg') }}" alt="HVAC Maintenance">
+                <h3>HVAC Maintenance</h3>
+            </div>
+
+            <div class="box" onclick="window.location.href='{{ url_for('list_filter', data_filter='moving') }}'">
+                <img src="{{ url_for('static', filename='assets/moving_services.jpeg') }}" alt="Moving Services">
+                <h3>Moving Services</h3>
+            </div>
+
+            <div class="box" onclick="window.location.href='{{ url_for('list_filter', data_filter='waste_removal') }}'">
+                <img src="{{ url_for('static', filename='assets/waste_removal.jpg') }}" alt="Waste Removal">
+                <h3>Waste Removal</h3>
+            </div>
+
+            <div class="box" onclick="window.location.href='{{ url_for('list_filter', data_filter='handyman') }}'">
+                <img src="{{ url_for('static', filename='assets/handyman_services.jpeg') }}" alt="Handyman Services">
+                <h3>Handyman Services</h3>
+            </div>
+
+            <div class="box"
+                onclick="window.location.href='{{ url_for('list_filter', data_filter='furniture_assembly') }}'">
+                <img src="{{ url_for('static', filename='assets/furniture_assembly.jpeg') }}" alt="Furniture Assembly">
+                <h3>Furniture Assembly</h3>
+            </div>
+
+            <div class="box"
+                onclick="window.location.href='{{ url_for('list_filter', data_filter='interior_design') }}'">
+                <img src="{{ url_for('static', filename='assets/interior_design.jpeg') }}" alt="Interior Design">
+                <h3>Interior Design</h3>
+            </div>
+
+            <div class="box" onclick="window.location.href='{{ url_for('list_filter', data_filter='chimney_sweep') }}'">
+                <img src="{{ url_for('static', filename='assets/chimney_sweep.jpg') }}" alt="Chimney Sweep">
+                <h3>Chimney Sweep</h3>
+            </div>
+
+            <div class="box" onclick="window.location.href='{{ url_for('list_filter', data_filter='tree_removal') }}'">
+                <img src="{{ url_for('static', filename='assets/tree_removal.png') }}" alt="Tree Trimming and Removal">
+                <h3>Tree Trimming and Removal</h3>
+            </div>
+
+
+        </div>
+    </div>
+    <div id="filter">
+        <div id="location">
+            <span class="material-symbols-outlined" style="color: orange;">
+                search
+            </span>
+            <input type="search" id="searches" placeholder="Enter provider name ..." oninput="searchProfessional()">
+            <span class="material-symbols-outlined miec" style="cursor:  pointer;">mic</span>
+        </div>
+        <div class="dropdown-container">
+            <div class="dropdown-button" id="items" onclick="toggleDropdown('filter_drop')">
+                <p>Filter</p> <span class="material-symbols-outlined">page_info</span>
+            </div>
+            <div id="filter_drop" class="dropdown-content">
+                <div class="listy">
+                    <label><input type="checkbox" value="all" onchange="searchProfessional()" checked>ALL
+                        Services</label>
+                    <label><input type="checkbox" value="cleaning" onchange="searchProfessional()">Cleaning
+                        Services</label>
+                    <label><input type="checkbox" value="plumbing" onchange="searchProfessional()">Plumbing
+                        Services</label>
+                    <label><input type="checkbox" value="electrical" onchange="searchProfessional()">Electrical
+                        Services</label>
+                    <label><input type="checkbox" value="gardening" onchange="searchProfessional()">Lawn and Garden
+                        Care</label>
+                    <label><input type="checkbox" value="painting" onchange="searchProfessional()">Painting
+                        Services</label>
+                    <label><input type="checkbox" value="carpet_cleaning" onchange="searchProfessional()">Carpet
+                        Cleaning</label>
+                    <label><input type="checkbox" value="window_cleaning" onchange="searchProfessional()">Window
+                        Cleaning</label>
+                    <label><input type="checkbox" value="pest_control" onchange="searchProfessional()">Pest
+                        Control</label>
+                    <label><input type="checkbox" value="appliance_repair" onchange="searchProfessional()">Appliance
+                        Repair</label>
+                    <label><input type="checkbox" value="pool_maintenance" onchange="searchProfessional()">Pool
+                        Maintenance</label>
+                    <label><input type="checkbox" value="smart_home_installation" onchange="searchProfessional()">Smart
+                        Home
+                        Installation</label>
+                    <label><input type="checkbox" value="home_security" onchange="searchProfessional()">Home Security
+                        Installation</label>
+                    <label><input type="checkbox" value="hvac" onchange="searchProfessional()">HVAC Maintenance</label>
+                    <label><input type="checkbox" value="moving" onchange="searchProfessional()">Moving Services</label>
+                    <label><input type="checkbox" value="waste_removal" onchange="searchProfessional()">Waste
+                        Removal</label>
+                    <label><input type="checkbox" value="handyman" onchange="searchProfessional()">Handyman
+                        Services</label>
+                    <label><input type="checkbox" value="furniture_assembly" onchange="searchProfessional()">Furniture
+                        Assembly</label>
+                    <label><input type="checkbox" value="interior_design" onchange="searchProfessional()">Interior
+                        Design</label>
+                    <label><input type="checkbox" value="chimney_sweep" onchange="searchProfessional()">Chimney
+                        Sweep</label>
+                    <label><input type="checkbox" value="tree_removal" onchange="searchProfessional()">Tree Trimming and
+                        Removal</label>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown-container">
+            <div class="dropdown-button" id="items" onclick="toggleDropdown('sort_drop')">
+                <p>Sort</p> <span class="material-symbols-outlined">sort</span>
+            </div>
+            <div id="sort_drop" class="dropdown-content">
+                <div class="listy"> <label><input type="radio" name="sort" value="name_asc"
+                            onchange="sortServices()">Sort by Name (A-Z)</label>
+                    <label><input type="radio" name="sort" value="name_desc" onchange="sortServices()">Sort by Name
+                        (Z-A)</label>
+                    <label><input type="radio" name="sort" value="price_low_high" onchange="sortServices()">Sort by
+                        Price (Low
+                        to High)</label>
+                    <label><input type="radio" name="sort" value="price_high_low" onchange="sortServices()">Sort by
+                        Price (High
+                        to Low)</label>
+                    <label><input type="radio" name="sort" value="rating_high_low" onchange="sortServices()">Sort by
+                        Rating
+                        (High toLow)</label>
+                    <label><input type="radio" name="sort" value="rating_low_high" onchange="sortServices()">Sort by
+                        Rating (Low
+                        to High)</label>
+                </div>
+            </div>
+        </div>
+
+        <div id="items">
+            <p>Rating 3+</p>
+        </div>
+        <div id="items">
+            <p>Rating 4+</p>
+        </div>
+    </div>
+    <hr>
+    <h2 style="padding: 10px;">Make work easier with us !!</h2>
+    <div class="providers">
+
+
+    </div>
+    </div>
+    </div>
+    <script>
+function searchProfessional() {
+    const searchTerm = document.getElementById('searches').value.trim();  
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    const categories = Array.from(checkboxes).map(checkbox => checkbox.value);  
+    const sortOption = document.querySelector('input[name="sort"]:checked')?.value || 'name_asc';  
+
+   
+    const pincodeMatch = searchTerm.match(/\b\d{5,6}\b/);  
+    const pincode = pincodeMatch ? pincodeMatch[0] : ''; 
+
+    
+    const serviceName = searchTerm.replace(pincode, '').trim();  
+
+  
+    const queryParams = new URLSearchParams({
+        service_name: serviceName,
+        sort: sortOption,
+    });
+
+   
+    if (pincode) {
+        queryParams.append('servicable_pincode', pincode);
+    }
+
+  
+    categories.forEach(category => queryParams.append('service_category', category));
+
+    
+    fetch(`/search?${queryParams.toString()}`)
+        .then(response => response.json())
+        .then(data => {
+          
+            const providersDiv = document.querySelector('.providers');
+            providersDiv.innerHTML = '';  
+
+            data.forEach(service => {
+                const serviceDiv = document.createElement('div');
+                serviceDiv.classList.add('provider');
+                serviceDiv.innerHTML = `
+                    <img src="${service.logo}" alt="">
+                    <h3>${service.service_name}</h3>
+                    <p>${service.service_category}</p>
+  
+                `;
+                serviceDiv.onclick = () => window.location.href = `/view_service/${service.service_code}`;
+                providersDiv.appendChild(serviceDiv);
+            });
+        })
+        .catch(error => console.error('Error fetching services:', error));
+}
+
+
+    </script>
+    <script src="{{url_for('static',filename='js/map.js')}}"></script>
+    <script src="https:/maps.googleapis.com/maps/api/js?key={{google_map_api_key}}&libraries=places"></script>
+    <script src="{{url_for('static',filename='js/script.js')}}"></script>
+    <script src="{{url_for('static',filename='js/mic.js')}}"></script>
+    <script src="{{url_for('static',filename='js/index.js')}}"></script>
+</body>
+
+</html>
